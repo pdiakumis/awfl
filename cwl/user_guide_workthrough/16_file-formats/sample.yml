@@ -1,0 +1,5 @@
+aligned_sequences:
+    class: File
+    format: http://edamontology.org/format_2572
+    path: file-formats.bam
+
