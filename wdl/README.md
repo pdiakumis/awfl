@@ -10,6 +10,7 @@ Workflow Description Language (WDL)
 * [Extras](#extras)
     * [womtool](#womtool)
         * [Usage](#usage)
+    * [BioWDL](#biowdl)
 
 <!-- vim-markdown-toc -->
 
@@ -144,4 +145,11 @@ Automatically upgrade the WDL to version 1.0 and output the result.
 Command: womgraph
 Generate and output a graph visualization of Cromwell's internal Workflow Object Model structure for this workflow in .dot format
 ```
+
+### BioWDL
+
+Collection of WDL pipelines
+
+- [GitHub](https://github.com/biowdl)
+- [WebSite](https://biowdl.github.io/)
 
