@@ -7,10 +7,19 @@ Workflow Description Language (WDL)
 * [Quick Example](#quick-example)
 * [Basic components](#basic-components)
 * [Plumbing](#plumbing)
+* [Inputs](#inputs)
+* [Execute](#execute)
 * [Extras](#extras)
     * [womtool](#womtool)
         * [Usage](#usage)
     * [BioWDL](#biowdl)
+* [Tutorials/Workshops](#tutorialsworkshops)
+    * [Setup](#setup)
+        * [Conda Environment](#conda-environment)
+    * [Tut1 - GATK HaplotypeCaller](#tut1---gatk-haplotypecaller)
+        * [Validate WDL Script](#validate-wdl-script)
+        * [Generate JSON inputs](#generate-json-inputs)
+        * [Run Cromwell](#run-cromwell)
 
 <!-- vim-markdown-toc -->
 
@@ -23,7 +32,7 @@ Quick Example
 
 ```
 
-workflow wf1 {
+workflow wf_1 {
 
   File my_ref
   File my_input
@@ -106,10 +115,32 @@ Plumbing
 * Task Aliasing
   - use `call stepA as foo` and `call stepA as bar` if you want to run a task more than once in a workflow
 
+Inputs
+------
+
+Specify inputs via JSON config, using `womtool`:
+
+```
+java -jar womtool.jar inputs wf.wdl > wf_inputs.json
+```
+
+Execute
+-------
+
+Run with Cromwell:
+
+```
+java -jar cromwell.jar run wf.wdl --inputs wf_inputs.json
+```
+
+
 Extras
 ------
 
 ### womtool
+
+* Validates WDL files
+* Generates JSON with inputs
 
 - [GitHub](https://github.com/broadinstitute/cromwell/tree/develop/womtool)
 - [Docs](https://cromwell.readthedocs.io/en/develop/WOMtool/)
@@ -136,6 +167,12 @@ Validate a workflow source file. If inputs are provided then 'validate' also che
 Command: inputs
 Generate and output a new inputs JSON for this workflow.
 
+Command: parse
+(Deprecated; WDL draft 2 only) Print out the Hermes parser's abstract syntax tree for the source file.
+
+Command: highlight
+(Deprecated; WDL draft 2 only) Print out the Hermes parser's abstract syntax tree for the source file. Requires at least one of 'html' or 'console'
+
 Command: graph
 Generate and output a graph visualization of the workflow in .dot format
 
@@ -143,7 +180,8 @@ Command: upgrade
 Automatically upgrade the WDL to version 1.0 and output the result.
 
 Command: womgraph
-Generate and output a graph visualization of Cromwell's internal Workflow Object Model structure for this workflow in .dot format
+(Advanced) Generate and output a graph visualization of Cromwell's internal Workflow Object Model structure for this workflow in .dot format
+
 ```
 
 ### BioWDL
@@ -152,4 +190,64 @@ Collection of WDL pipelines
 
 - [GitHub](https://github.com/biowdl)
 - [WebSite](https://biowdl.github.io/)
+
+Tutorials/Workshops
+-------------------
+
+### Setup
+
+#### Conda Environment
+
+```
+conda create --name cromwell -c conda-forge -c bioconda gatk4 cromwell womtool
+```
+
+### Tut1 - GATK HaplotypeCaller
+
+#### Validate WDL Script
+
+* Command:
+
+```
+womtool \
+    validate \
+    01-haplotypecaller/haplotypecaller.wdl
+```
+
+* If nothing is output, it means it's probably ok
+* Good for catching typos
+
+#### Generate JSON inputs
+
+* Command:
+
+```
+womtool \
+    inputs \
+    01-haplotypecaller/haplotypecaller.wdl > 01-haplotypecaller/hc_inputs.json
+```
+
+* Output:
+
+```
+$ cat 01-haplotypecaller/hc_inputs.json
+{
+  "helloHaplotypeCaller.haplotypeCaller.RefFasta": "File",
+  "helloHaplotypeCaller.haplotypeCaller.bamIndex": "File",
+  "helloHaplotypeCaller.haplotypeCaller.GATK": "File",
+  "helloHaplotypeCaller.haplotypeCaller.RefIndex": "File",
+  "helloHaplotypeCaller.haplotypeCaller.RefDict": "File",
+  "helloHaplotypeCaller.haplotypeCaller.inputBAM": "File",
+  "helloHaplotypeCaller.haplotypeCaller.sampleName": "String"
+}
+```
+
+#### Run Cromwell
+
+```
+cromwell \
+    run \
+    01-haplotypecaller/haplotypecaller.wdl \
+    -i 01-haplotypecaller/hc_inputs.json
+```
 

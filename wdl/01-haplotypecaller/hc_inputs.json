@@ -1,0 +1,10 @@
+{
+  "helloHaplotypeCaller.haplotypeCaller.RefFasta": "/data/cephfs/punim0010/local/development/bcbio/genomes/Hsapiens/GRCh37/seq/GRCh37.fa",
+  "helloHaplotypeCaller.haplotypeCaller.bamIndex": "/data/cephfs/punim0010/projects/Diakumis/HCC2218/bcbio/final/HCC2218BL/HCC2218BL-ready.bam.bai",
+  "helloHaplotypeCaller.haplotypeCaller.GATK": "/home/pdiakumis/my_apps/gatk-4.1.0.0/gatk-package-4.1.0.0-local.jar",
+  "helloHaplotypeCaller.haplotypeCaller.RefIndex": "/data/cephfs/punim0010/local/development/bcbio/genomes/Hsapiens/GRCh37/seq/GRCh37.fa.fai",
+  "helloHaplotypeCaller.haplotypeCaller.RefDict": "/data/cephfs/punim0010/local/development/bcbio/genomes/Hsapiens/GRCh37/seq/GRCh37.dict",
+  "helloHaplotypeCaller.haplotypeCaller.inputBAM": "/data/cephfs/punim0010/projects/Diakumis/HCC2218/bcbio/final/HCC2218BL/HCC2218BL-ready.bam",
+  "helloHaplotypeCaller.haplotypeCaller.sampleName": "HCC2218BL"
+}
+
