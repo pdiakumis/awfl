@@ -16,8 +16,8 @@ Workflow Description Language (WDL)
 * [Tutorials/Workshops](#tutorialsworkshops)
     * [Setup](#setup)
         * [Conda Environment](#conda-environment)
-    * [Tut1 - GATK HaplotypeCaller](#tut1---gatk-haplotypecaller)
-        * [Validate WDL Script](#validate-wdl-script)
+    * [Tut1 - First WDL script](#tut1---first-wdl-script)
+        * [Validate WDL script](#validate-wdl-script)
         * [Generate JSON inputs](#generate-json-inputs)
         * [Run Cromwell](#run-cromwell)
 
@@ -199,19 +199,31 @@ Tutorials/Workshops
 #### Conda Environment
 
 ```
-conda create --name cromwell -c conda-forge -c bioconda gatk4 cromwell womtool
+conda create --name cromwell -c conda-forge -c bioconda cromwell womtool
 ```
 
-### Tut1 - GATK HaplotypeCaller
+```
+$ womtool --help
+Error: Unable to access jarfile /Users/pdiakumis/my_apps/miniconda/envs/cromwell/share/womtool/womtool.jar
+```
 
-#### Validate WDL Script
+* You need to softlink to `womtool`:
+
+```
+cd /path/to/miniconda/envs/cromwell/share
+ln -s womtool-36-0 womtool
+```
+
+### Tut1 - First WDL script
+
+#### Validate WDL script
 
 * Command:
 
 ```
 womtool \
     validate \
-    01-haplotypecaller/haplotypecaller.wdl
+    tut/01/haplotypecaller.wdl
 ```
 
 * If nothing is output, it means it's probably ok
@@ -224,13 +236,13 @@ womtool \
 ```
 womtool \
     inputs \
-    01-haplotypecaller/haplotypecaller.wdl > 01-haplotypecaller/hc_inputs.json
+    tut/01/haplotypecaller.wdl > tut/01/hc_inputs.json
 ```
 
 * Output:
 
 ```
-$ cat 01-haplotypecaller/hc_inputs.json
+$ cat tut/01/hc_inputs.json
 {
   "helloHaplotypeCaller.haplotypeCaller.RefFasta": "File",
   "helloHaplotypeCaller.haplotypeCaller.bamIndex": "File",
@@ -247,7 +259,7 @@ $ cat 01-haplotypecaller/hc_inputs.json
 ```
 cromwell \
     run \
-    01-haplotypecaller/haplotypecaller.wdl \
-    -i 01-haplotypecaller/hc_inputs.json
+    tut/01/haplotypecaller.wdl \
+    -i tut/01/hc_inputs.json
 ```
 

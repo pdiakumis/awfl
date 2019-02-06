@@ -1,0 +1,10 @@
+{
+  "helloHaplotypeCaller.haplotypeCaller.RefFasta": "/data/cephfs/punim0010/projects/Diakumis/awfl/wdl/tut/01/data/ref/human_g1k_b37_20.fasta",
+  "helloHaplotypeCaller.haplotypeCaller.RefIndex": "/data/cephfs/punim0010/projects/Diakumis/awfl/wdl/tut/01/data/ref/human_g1k_b37_20.fasta.fai",
+  "helloHaplotypeCaller.haplotypeCaller.RefDict":  "/data/cephfs/punim0010/projects/Diakumis/awfl/wdl/tut/01/data/ref/human_g1k_b37_20.dict",
+  "helloHaplotypeCaller.haplotypeCaller.bamIndex": "/data/cephfs/punim0010/projects/Diakumis/awfl/wdl/tut/01/data/inputs/NA12878_wgs_20.bai",
+  "helloHaplotypeCaller.haplotypeCaller.inputBAM": "/data/cephfs/punim0010/projects/Diakumis/awfl/wdl/tut/01/data/inputs/NA12878_wgs_20.bam",
+  "helloHaplotypeCaller.haplotypeCaller.GATK": "/home/pdiakumis/my_apps/gatk-4.1.0.0/gatk-package-4.1.0.0-local.jar",
+  "helloHaplotypeCaller.haplotypeCaller.sampleName": "NA12878"
+}
+
