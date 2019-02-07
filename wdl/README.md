@@ -18,6 +18,7 @@ Contents
 * [Extra Tools/Resources](#extra-toolsresources)
     * [womtool](#womtool)
         * [Usage](#usage)
+    * [HumanCellAtlas/skylab](#humancellatlasskylab)
     * [BioWDL](#biowdl)
     * [miniwdl](#miniwdl)
 * [Tutorials/Workshops](#tutorialsworkshops)
@@ -194,6 +195,12 @@ Command: womgraph
 (Advanced) Generate and output a graph visualization of Cromwell's internal Workflow Object Model structure for this workflow in .dot format
 
 ```
+
+### HumanCellAtlas/skylab
+
+Collection of WDL pipelines
+
+- [GitHub](https://github.com/HumanCellAtlas/skylab)
 
 ### BioWDL
 
