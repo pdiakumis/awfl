@@ -1,6 +1,11 @@
 Workflow Description Language (WDL)
 ====================================
 
+* [Website](https://software.broadinstitute.org/wdl/)
+* [Quick Start](https://software.broadinstitute.org/wdl/documentation/quickstart)
+
+Contents
+---------
 
 <!-- vim-markdown-toc GFM -->
 
@@ -9,13 +14,17 @@ Workflow Description Language (WDL)
 * [Plumbing](#plumbing)
 * [Inputs](#inputs)
 * [Execute](#execute)
-* [Extras](#extras)
+* [Output](#output)
+* [Extra Tools/Resources](#extra-toolsresources)
     * [womtool](#womtool)
         * [Usage](#usage)
     * [BioWDL](#biowdl)
+    * [miniwdl](#miniwdl)
 * [Tutorials/Workshops](#tutorialsworkshops)
     * [Setup](#setup)
+        * [Test data](#test-data)
         * [Conda Environment](#conda-environment)
+        * [GATK](#gatk)
     * [Tut1 - First WDL script](#tut1---first-wdl-script)
         * [Validate WDL script](#validate-wdl-script)
         * [Generate JSON inputs](#generate-json-inputs)
@@ -23,8 +32,6 @@ Workflow Description Language (WDL)
 
 <!-- vim-markdown-toc -->
 
-* [Website](https://software.broadinstitute.org/wdl/)
-* [Quick Start](https://software.broadinstitute.org/wdl/documentation/quickstart)
 
 
 Quick Example
@@ -133,9 +140,13 @@ Run with Cromwell:
 java -jar cromwell.jar run wf.wdl --inputs wf_inputs.json
 ```
 
-
-Extras
+Output
 ------
+
+* Located in `cromwell-executions/<workflow>/<random-string>/<call>/execution`
+
+Extra Tools/Resources
+---------------------
 
 ### womtool
 
@@ -191,10 +202,22 @@ Collection of WDL pipelines
 - [GitHub](https://github.com/biowdl)
 - [WebSite](https://biowdl.github.io/)
 
+
+### miniwdl
+
+* [GitHub](https://github.com/chanzuckerberg/miniwdl)
+
+WDL linter, among many other things
+
 Tutorials/Workshops
 -------------------
 
 ### Setup
+
+#### Test data
+
+* See <https://software.broadinstitute.org/wdl/documentation/article?id=7158>
+
 
 #### Conda Environment
 
@@ -214,6 +237,12 @@ cd /path/to/miniconda/envs/cromwell/share
 ln -s womtool-36-0 womtool
 ```
 
+#### GATK
+
+* Download zip from their website, unzip, and link to 
+  `gatk-4.1.0.0/gatk-package-4.1.0.0-local.jar`
+
+
 ### Tut1 - First WDL script
 
 #### Validate WDL script
@@ -226,8 +255,15 @@ womtool \
     tut/01/haplotypecaller.wdl
 ```
 
+* Output
+
+```
+<None>
+```
+
 * If nothing is output, it means it's probably ok
 * Good for catching typos
+* Also check out 
 
 #### Generate JSON inputs
 
@@ -261,5 +297,39 @@ cromwell \
     run \
     tut/01/haplotypecaller.wdl \
     -i tut/01/hc_inputs.json
+```
+
+* Output:
+
+```
+
+cromwell-executions/
+└── helloHaplotypeCaller
+    └── 6cc43e6a-1c4a-455a-8142-b01922b1c2f0
+        └── call-haplotypeCaller
+            ├── execution
+            │   ├── NA12878.raw.indels.snps.vcf
+            │   ├── NA12878.raw.indels.snps.vcf.idx
+            │   ├── rc
+            │   ├── script
+            │   ├── script.background
+            │   ├── script.submit
+            │   ├── stderr
+            │   ├── stderr.background
+            │   ├── stdout
+            │   └── stdout.background
+            ├── inputs
+            │   ├── -1485200933
+            │   │   ├── human_g1k_b37_20.dict
+            │   │   ├── human_g1k_b37_20.fasta
+            │   │   └── human_g1k_b37_20.fasta.fai
+            │   ├── 1953056760
+            │   │   └── gatk-package-4.1.0.0-local.jar -> /home/pdiakumis/my_apps/gatk-4.1.0.0/gatk-package-4.1.0.0-local.jar
+            │   └── 883151777
+            │       ├── NA12878_wgs_20.bai
+            │       └── NA12878_wgs_20.bam
+            └── tmp.f051c2d8
+
+9 directories, 16 files
 ```
 
