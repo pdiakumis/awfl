@@ -1,0 +1,11 @@
+
+{
+  "SimpleVariantDetection.refFasta": "/data/cephfs/punim0010/projects/Diakumis/awfl/wdl/tut/data/ref/human_g1k_b37_20.fasta",
+  "SimpleVariantDetection.refIndex": "/data/cephfs/punim0010/projects/Diakumis/awfl/wdl/tut/data/ref/human_g1k_b37_20.fasta.fai",
+  "SimpleVariantDetection.refDict": "/data/cephfs/punim0010/projects/Diakumis/awfl/wdl/tut/data/ref/human_g1k_b37_20.dict",
+  "SimpleVariantDetection.gatk": "/home/pdiakumis/my_apps/gatk-4.1.0.0/gatk-package-4.1.0.0-local.jar",
+  "SimpleVariantDetection.haplotypeCaller.bamIndex": "/data/cephfs/punim0010/projects/Diakumis/awfl/wdl/tut/data/bam/NA12878_wgs_20.bai",
+  "SimpleVariantDetection.haplotypeCaller.inputBAM": "/data/cephfs/punim0010/projects/Diakumis/awfl/wdl/tut/data/bam/NA12878_wgs_20.bam",
+  "SimpleVariantDetection.name": "NA12878"
+}
+
