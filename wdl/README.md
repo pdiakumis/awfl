@@ -3,6 +3,8 @@ Workflow Description Language (WDL)
 
 * [Website](https://software.broadinstitute.org/wdl/)
 * [Quick Start](https://software.broadinstitute.org/wdl/documentation/quickstart)
+* [Full Spec](https://software.broadinstitute.org/wdl/documentation/spec)
+* [Script Components](https://software.broadinstitute.org/wdl/documentation/topic?name=wdl-components)
 
 Contents
 ---------
@@ -30,6 +32,7 @@ Contents
         * [Validate WDL script](#validate-wdl-script)
         * [Generate JSON inputs](#generate-json-inputs)
         * [Run Cromwell](#run-cromwell)
+    * [Cromwell server](#cromwell-server)
 
 <!-- vim-markdown-toc -->
 
@@ -338,5 +341,23 @@ cromwell-executions/
             └── tmp.f051c2d8
 
 9 directories, 16 files
+```
+
+
+### Cromwell server
+
+```
+cromwell server -Dconfig.file=your.conf
+```
+
+* Cromwell served on `localhost:8080`
+
+```
+$ cat your.conf
+include required(classpath("application"))
+
+webservice {
+    port = 8080
+}
 ```
 
