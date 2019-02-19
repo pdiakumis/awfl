@@ -1,3 +1,5 @@
 {
-    "test.hello.name": "Peter Foo"
+  "get_greps.grep_pattern.pattern": "^17",
+  "get_greps.grep_pattern.file": "/Users/pdiakumis/Desktop/projects/umccr/patients/Tothill_CUP-Pairs/CUP-Pairs8/purple/CUP-Pairs8__PRJ180660_8_DNA009529_FFPE.purple.cnv"
 }
+
