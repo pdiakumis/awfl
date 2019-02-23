@@ -16,6 +16,8 @@ Contents
 * [Plumbing](#plumbing)
 * [Inputs](#inputs)
 * [Execute](#execute)
+    * [`run`](#run)
+    * [`server`](#server)
 * [Output](#output)
 * [Extra Tools/Resources](#extra-toolsresources)
     * [womtool](#womtool)
@@ -138,10 +140,48 @@ java -jar womtool.jar inputs wf.wdl > wf_inputs.json
 Execute
 -------
 
-Run with Cromwell:
+Cromwell has two modes, `run` and `server`:
+
+### `run`
+
+* Simple scenario:
 
 ```
-java -jar cromwell.jar run wf.wdl --inputs wf_inputs.json
+cromwell run --inputs wf_inputs.json wf.wdl 
+```
+
+* In case you're importing tasks into your main workflow script: 
+
+```
+root
+├── compare_vcf_files.wdl
+├── inputs.json
+├── inputs.tsv
+├── tasks # zip this with `zip -r tasks.zip tasks`
+│   └── count_vcf_lines.wdl
+└── tasks.zip
+
+zip -r tasks.zip tasks
+cromwell run -i inputs.json --imports tasks.zip  compare_vcf_files.wdl
+```
+
+### `server`
+
+* First run the following:
+
+```
+cromwell server
+```
+
+* Then use `curl` to submit the workflow:
+
+```
+curl -X POST \
+  --header "Accept: application/json" -v \
+  "localhost:8000/api/workflows/v1" \
+  -F workflowSource=@compare_vcf_files.wdl \
+  -F workflowInputs=@inputs.json \
+  -F workflowDependencies=@tasks.zip # if you have deps
 ```
 
 Output
@@ -181,12 +221,6 @@ Validate a workflow source file. If inputs are provided then 'validate' also che
 
 Command: inputs
 Generate and output a new inputs JSON for this workflow.
-
-Command: parse
-(Deprecated; WDL draft 2 only) Print out the Hermes parser's abstract syntax tree for the source file.
-
-Command: highlight
-(Deprecated; WDL draft 2 only) Print out the Hermes parser's abstract syntax tree for the source file. Requires at least one of 'html' or 'console'
 
 Command: graph
 Generate and output a graph visualization of the workflow in .dot format
