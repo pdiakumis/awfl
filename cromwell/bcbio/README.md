@@ -15,6 +15,7 @@ Cromwell via bcbio
     * [Input](#input-2)
     * [Command](#command-2)
     * [Output](#output-2)
+* [bcbio Cromwell Code](#bcbio-cromwell-code)
 
 <!-- vim-markdown-toc -->
 ## Step 1: Prepare bcbio input
@@ -23,7 +24,7 @@ Cromwell via bcbio
 
 * bcbio workflow template
 * bcbio sample metadata file
-* path to FASTQ data 
+* path to FASTQ data
 
 ```
 |-- 2018-07-31T0309_Avner_test_WGS-merged.csv
@@ -143,3 +144,80 @@ bcbio_vm.py cwlrun cromwell \
 ### Output
 
 TBD
+
+
+## bcbio Cromwell Code
+
+* `https://github.com/bcbio/bcbio-nextgen-vm/scripts/bcbio_vm.py`
+
+
+```
+bcbio_vm.py cwlrun \ 
+  cromwell \ --> tool = cromwell
+ ./path-to-merged-workflow \ --> directory = path-to-merged-workflow
+ --no-container \ --> no_container = True
+ -q normal \ --> queue = x
+ -s pbspro \ --> scheduler = pbspro
+ -r x \ --> resources = x
+```
+
+* Feed the arguments to `run` in `bcbio-nextgen/bcbio/cwl/tool.py`
+* It calls `_run_cromwell` with the provided args
+
+
+* First uses `_get_main_and_json(args.directory)`, which retrieves main CWL and sample JSON files
+  from the `path-to-merged-workflow` directory e.g.: 
+    - `/abs/path-to-merged-workflow/main-projX-merged.cwl` 
+    - `/abs/path-to-merged-workflow/main-projX-samples.json`
+    - `projX`
+* Create: 
+  - `cromwell_work`
+  - `cromwell_work/final`
+  - `cromwell_work/projX-cromwell.log`
+  - `cromwell_work/projX-metadata.json`
+  - `cromwell_work/projX-options.json`
+    - Write: 
+      - `"final_workflow_outputs_dir"`: `cromwell_work/final`
+      - `"default_runtime_attributes"`: `{"bootDiskSizeGb": 20}`
+
+* Command:
+
+```
+cromwell -Xms1g -Xmx3g run \
+  -Dconfig.file=`file-from-hpc.create_cromwell_config(args, work_dir, json_file)` \
+  + `hpc.args_to_cromwell_cl(args)` \
+  + --metadata-output cromwell_work/projX-metadata.json \
+  + --options cromwell_work/projX-options.json \
+  + --inputs path-to-merged-workflow/main-projX-samples.json \
+  + path-to-merged-workflow/main-projX-merged.cwl # workflow file
+```
+
+* `hpc.create_cromwell_config`
+
+
+```
+```
+
+* `hpc.args_to_cromwell_cl`
+
+```
+```
+
+* Then:
+  - change to `cromwell_work`
+  - `_run_tool(cromwell-cmd-from-above, false, work_dir, log_file)
+
+* `_run_tool(cromwell-cmd-from-above, false, work_dir, log_file)
+  - runs the Cromwell command via `subprocess.check_call`, and does
+    some other little things
+
+
+* After the command has ended, do:
+  - check if metadata["status"] is "Failed"
+    - if it's failed, try debugging
+    - if it's ok, run `_cromwell_move_outputs(metadata, final_dir)`
+
+* `_cromwell_move_outputs(metadata, final_dir)`
+  - `cromwell_work/final/project` will contain the project-level final data
+  - `tumor-sample`, `normal-sample` will contain the per-sample data
+
