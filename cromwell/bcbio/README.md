@@ -16,6 +16,9 @@ Cromwell via bcbio
     * [Command](#command-2)
     * [Output](#output-2)
 * [bcbio Cromwell Code](#bcbio-cromwell-code)
+    * [Run Command Generation](#run-command-generation)
+    * [Create Cromwell config](#create-cromwell-config)
+    * [Execute Command](#execute-command)
 
 <!-- vim-markdown-toc -->
 ## Step 1: Prepare bcbio input
@@ -148,11 +151,12 @@ TBD
 
 ## bcbio Cromwell Code
 
-* `https://github.com/bcbio/bcbio-nextgen-vm/scripts/bcbio_vm.py`
+Starting point:
+`https://github.com/bcbio/bcbio-nextgen-vm/scripts/bcbio_vm.py`
 
 
 ```
-bcbio_vm.py cwlrun \ 
+bcbio_vm.py cwlrun \
   cromwell \ --> tool = cromwell
  ./path-to-merged-workflow \ --> directory = path-to-merged-workflow
  --no-container \ --> no_container = True
@@ -180,7 +184,7 @@ bcbio_vm.py cwlrun \
       - `"final_workflow_outputs_dir"`: `cromwell_work/final`
       - `"default_runtime_attributes"`: `{"bootDiskSizeGb": 20}`
 
-* Command:
+### Run Command Generation
 
 ```
 cromwell -Xms1g -Xmx3g run \
@@ -192,25 +196,53 @@ cromwell -Xms1g -Xmx3g run \
   + path-to-merged-workflow/main-projX-merged.cwl # workflow file
 ```
 
-* `hpc.create_cromwell_config`
+### Create Cromwell config
 
-
-```
-```
+* Run `hpc.create_cromwell_config`
+* Setup general attributes (e.g cpuMin, memoryMin etc.)
+* Output will be in `cromwell_work/bcbio-cromwell.conf`
+* Take care of:
+  - `localization`
+  - `database`
+  - `filesystems`
 
 * `hpc.args_to_cromwell_cl`
+  - if you're specifying a scheduler (e.g. pbspro):
 
 ```
+cl = ["Dbackend.default=PBSPRO"]
+
+config = {"walltime": "24:00:00",
+          "account": "",
+          "cpu_and_mem": "-l select=1:ncpus=${cpu}:mem=${memory_mb}mb",
+          "queue": "queue-foo",
+          "walltime": "override above",
+          "jobfs": "100GB"}
+
+scheduler = "pbspro"
+cloud_type = None
 ```
+
+* The `main_config` pulls info out of the `config` above:
+
+```
+main_config = {"hpc": ("pbspro-dict-with-that-actor-factory"),
+               "cloud": "",
+               "work_dir": "cromwell_work"}
+```
+
+* Then the `CROMWELL_CONFIG` chunk substitutes the `main_config` info
+  into its placeholders. Magic.
+
+### Execute Command
 
 * Then:
   - change to `cromwell_work`
   - `_run_tool(cromwell-cmd-from-above, false, work_dir, log_file)
 
-* `_run_tool(cromwell-cmd-from-above, false, work_dir, log_file)
+* `_run_tool(cromwell-cmd-from-above, false, work_dir, log_file)`
   - runs the Cromwell command via `subprocess.check_call`, and does
     some other little things
-
 
 * After the command has ended, do:
   - check if metadata["status"] is "Failed"
