@@ -19,7 +19,7 @@ inputs:
     inputBinding:
       position: 2
       prefix: -i
-      separate: false
+      separate: true #false
   example_file:
     type: File?
     inputBinding:
