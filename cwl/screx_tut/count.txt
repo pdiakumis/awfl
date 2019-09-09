@@ -1,0 +1,3 @@
+       5 /private/var/folders/65/x7xc45ps4cd0yls9bsv69pwhrqmznh/T/tmptvttna3w/stgd4756099-6b34-4b92-a070-5fe932f73163/somefile.txt
+       0 count.txt
+       5 total
