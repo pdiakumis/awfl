@@ -15,20 +15,22 @@ requirements:
 
 steps:
   untar:
-    run: ./tar.cwl
+    run: ../tools/tar.cwl
     in:
-      compress_file: zip_file
+      compress_file:
+        source: zip_file
     out: [uncompress_file]
   grep:
-    run: ./grep.cwl
+    run: ../tools/grep.cwl
     in:
       extended:
         default: true
-      search_file: untar/uncompress_file
+      search_file:
+        source: untar/uncompress_file
       search_string: search_string
     out: [occurences]
   wc:
-    run: ../wc/wc.cwl
+    run: ../tools/wc.cwl
     in:
       input_file: grep/occurences
       output_filename: output_filename
@@ -38,3 +40,4 @@ outputs:
   occurences:
     type: File
     outputSource: [wc/count]
+

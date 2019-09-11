@@ -5,14 +5,14 @@ class: CommandLineTool
 baseCommand: tar
 arguments: [-x, -v, -z, -f]
 inputs:
-  tarfile:
+  compress_file:
     type: File
     inputBinding:
       position: 1
     label: the file to be decompressed
 
 outputs:
-  extractfile:
+  uncompress_file:
     type: File
     outputBinding:
       glob: "*"
