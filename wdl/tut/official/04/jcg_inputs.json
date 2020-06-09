@@ -1,7 +1,0 @@
-{
-  "jointCallingGenotypes.inputSamplesFile": "inputs_tsv.txt",
-  "jointCallingGenotypes.refFasta": "/data/cephfs/punim0010/projects/Diakumis/awfl/wdl/tut/data/ref/human_g1k_b37_20.fasta",
-  "jointCallingGenotypes.gatk": "/home/pdiakumis/my_apps/gatk3.8.jar",
-  "jointCallingGenotypes.refDict": "/data/cephfs/punim0010/projects/Diakumis/awfl/wdl/tut/data/ref/human_g1k_b37_20.dict",
-  "jointCallingGenotypes.refIndex": "/data/cephfs/punim0010/projects/Diakumis/awfl/wdl/tut/data/ref/human_g1k_b37_20.fasta.fai"
-}

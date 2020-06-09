@@ -1,5 +1,7 @@
 FROM openjdk:8-jdk
 
+ENV JAVA_OPTS="-Xmx4g"
+
 RUN apt-get update && apt-get install -y unzip wget
 
 RUN wget http://sourceforge.net/projects/snpeff/files/snpEff_latest_core.zip
