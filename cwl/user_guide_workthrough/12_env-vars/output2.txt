@@ -1,0 +1,4 @@
+HELLO=Hello world!
+PATH=/Users/pdiakumis/my_apps/miniconda/envs/cwl/bin:/Users/pdiakumis/my_apps/miniconda/condabin:/Users/pdiakumis/my_apps:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Users/pdiakumis/.fzf/bin
+HOME=/private/tmp/docker_tmppeyvs6rh
+TMPDIR=/private/var/folders/65/x7xc45ps4cd0yls9bsv69pwhrqmznh/T/tmp1cu0kuwd

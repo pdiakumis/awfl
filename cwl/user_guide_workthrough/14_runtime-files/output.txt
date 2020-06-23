@@ -1,1 +1,1 @@
-CONFIGVAR=Hello world!
+Message is: Hello world!
