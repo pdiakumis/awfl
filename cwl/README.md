@@ -7,6 +7,7 @@
 - `baseCommand`: name of program that will run
 
 - `inputs`: inputs of tool
+
   - include `id`, `type`, and `inputBinding` (optional)
     - `id`: name of param
     - `type`: types of valid values for param
@@ -17,6 +18,7 @@
       - If missing, the param doesn't appear on the command line
 
 - `outputs`: outputs of tool
+
   - include `id`, `type`
   - working directory is the designated output directory
   - `outputBinding`: how to set the value of each output param
@@ -28,19 +30,27 @@
   - Use `type: stdout` as an output param
 - `arguments`: add extra arguments to `baseCommand`
 
-
-- `records`: relationships between programs/params
-- `requirements`: dependencies of program
-- `steps`: linking programs together into workflows
+* `records`: relationships between programs/params
+* `requirements`: dependencies of program
+* `steps`: linking programs together into workflows
 
 ### JS param references
+
+See <https://www.commonwl.org/user_guide/06-params/index.html>
 
 Use `$(...)` to refer to inputs dynamically, e.g.
 
 - `$(inputs.foo)`
 - For path to `File` objects use: `$(inputs.foofile.path)`
 
-See <https://www.commonwl.org/user_guide/06-params/index.html>
+- `$(runtime.foo)`: runtime params provide info about hardware/software env when tool
+  is executed.
+  - `outdir`
+  - `tmpdir`
+  - `ram`
+  - `cores`
+  - `outdirSize`
+  - `tmpdirSize`
 
 ## Input Params File
 

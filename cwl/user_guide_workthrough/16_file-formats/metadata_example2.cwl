@@ -1,5 +1,6 @@
 #!/usr/bin/env cwl-runner
-cwlVersion: v1.0
+
+cwlVersion: v1.1
 class: CommandLineTool
 
 label: An example tool demonstrating metadata.
@@ -38,13 +39,13 @@ s:contributor:
 s:citation: https://dx.doi.org/10.6084/m9.figshare.3115156.v2
 s:codeRepository: https://github.com/common-workflow-language/common-workflow-language
 s:dateCreated: "2016-12-13"
-s:license: https://spdx.org/licenses/Apache-2.0 
+s:license: https://spdx.org/licenses/Apache-2.0
 
 $namespaces:
   s: https://schema.org/
   edam: http://edamontology.org/
 
 $schemas:
- - https://schema.org/docs/schema_org_rdfa.html
+ - https://schema.org/version/latest/schema.rdf
  - http://edamontology.org/EDAM_1.18.owl
 
