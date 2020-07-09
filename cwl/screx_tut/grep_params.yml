@@ -1,6 +1,0 @@
-extended: true
-search_string: Hello, world
-search_file:
-  class: File
-  path: "Hello_world.txt"
-
