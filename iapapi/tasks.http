@@ -1,15 +1,42 @@
-### task list
-GET {{baseUrl}}/tasks
-Authorization: Bearer {{$processEnv IAP_ACCESS_TOKEN}}
+@token = Bearer {{$processEnv IAP_ACCESS_TOKEN}}
 
-### taskrun list
+### TASKS
+
+GET {{baseUrl}}/tasks
+?pageSize=5
+&sort=timeCreated desc
+Authorization: {{token}}
+
+### TASK-RUNS
 
 GET {{baseUrl}}/tasks/runs
 ?pageSize=5
-&sort=timeCreated asc
-Authorization: Bearer {{$processEnv IAP_ACCESS_TOKEN}}
+&sort=timeCreated desc
+Authorization: {{token}}
 
-### taskrun status
+### TASK details given TDN
+
+GET {{baseUrl}}/tasks/tdn.8faf914ef7b64f4a85cff3a4453c2f11
+Authorization: {{token}}
+
+### TASK-RUN details given TRN
 
 GET {{baseUrl}}/tasks/runs/trn.2ba3087f76cd4b8f9c54415767467740
-Authorization: Bearer {{$processEnv IAP_ACCESS_TOKEN}}
+Authorization: {{token}}
+
+### TASK-VERSIONS given TDN
+
+GET {{baseUrl}}/tasks/tdn.8faf914ef7b64f4a85cff3a4453c2f11/versions
+Authorization: {{token}}
+
+### TASK-VERSION details given TDN, TVN
+
+GET {{baseUrl}}/tasks/tdn.8faf914ef7b64f4a85cff3a4453c2f11/versions/tvn.ce6dbb65e19047c9bf1a4801bfc512f9
+Authorization: {{token}}
+
+
+### TASK-RUN abort given TRN
+
+@trnid = trn.ac37eb3204e24cadb912892036668e2d
+PUT {{baseUrl}}/tasks/runs/{{trnid}}:abort
+Authorization: {{token}}
