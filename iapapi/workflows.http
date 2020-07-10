@@ -1,0 +1,32 @@
+@token = Bearer {{$processEnv IAP_ACCESS_TOKEN}}
+
+### WORKFLOWS
+
+GET {{baseUrl}}/workflows
+?pageSize=5
+&sort=timeCreated desc
+Authorization: {{token}}
+
+### WORKFLOW-RUNS
+
+GET {{baseUrl}}/workflows/runs
+?pageSize=5
+&sort=timeCreated desc
+Authorization: {{token}}
+
+### WORKFLOW details given WFL
+
+GET {{baseUrl}}/workflows/wfl.7c9294790eb147dc973e1d6a1ce6aa62
+Authorization: {{token}}
+
+### WORKFLOW-RUN details given WFR
+
+GET {{baseUrl}}/workflows/runs/wfr.98f1971f92af4b1a998bbaf0321541f6
+Authorization: {{token}}
+
+### WORKFLOW-RUN history given WFR
+
+GET {{baseUrl}}/workflows/runs/wfr.98f1971f92af4b1a998bbaf0321541f6/history
+?pageSize=500
+&sort=eventId asc
+Authorization: {{token}}
