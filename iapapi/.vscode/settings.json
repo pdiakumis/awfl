@@ -1,0 +1,10 @@
+{
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "baseUrl": "https://aps2.platform.illumina.com/v1"
+    },
+    "stratus": {
+      "baseUrl": "{{$shared baseUrl}}"
+    }
+  }
+}

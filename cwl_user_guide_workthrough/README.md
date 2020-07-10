@@ -30,9 +30,9 @@
   - Use `type: stdout` as an output param
 - `arguments`: add extra arguments to `baseCommand`
 
-* `records`: relationships between programs/params
-* `requirements`: dependencies of program
-* `steps`: linking programs together into workflows
+- `records`: relationships between programs/params
+- `requirements`: dependencies of program
+- `steps`: linking programs together into workflows
 
 ### JS param references
 
