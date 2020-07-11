@@ -16,17 +16,36 @@ Authorization: {{token}}
 
 ### WORKFLOW details given WFL
 
-GET {{baseUrl}}/workflows/wfl.7c9294790eb147dc973e1d6a1ce6aa62
+@workflowid = wfl.7c9294790eb147dc973e1d6a1ce6aa62
+GET {{baseUrl}}/workflows/{{workflowid}}
+Authorization: {{token}}
+
+### WORKFLOW versions given WFL
+
+// @name workflowversions
+GET {{baseUrl}}/workflows/{{workflowid}}/versions
+?pageSize=5
+&sort=timeCreated desc
+Authorization: {{token}}
+
+### WORKFLOW version details given WFL, version name
+
+@versionid = {{workflowversions.response.body.$.items[0].version}}
+GET {{baseUrl}}/workflows/{{workflowid}}/versions/{{versionid}}
+?pageSize=5
+&sort=timeCreated desc
 Authorization: {{token}}
 
 ### WORKFLOW-RUN details given WFR
 
-GET {{baseUrl}}/workflows/runs/wfr.98f1971f92af4b1a998bbaf0321541f6
+@workflowrunid = wfr.98f1971f92af4b1a998bbaf0321541f6
+GET {{baseUrl}}/workflows/runs/{{workflowrunid}}
 Authorization: {{token}}
+
 
 ### WORKFLOW-RUN history given WFR
 
-GET {{baseUrl}}/workflows/runs/wfr.98f1971f92af4b1a998bbaf0321541f6/history
+GET {{baseUrl}}/workflows/runs/{{workflowrunid}}/history
 ?pageSize=500
 &sort=eventId asc
 Authorization: {{token}}

@@ -8,5 +8,6 @@
     }
   },
   "rest-client.previewResponsePanelTakeFocus": false,
-  "rest-client.requestNameAsResponseTabTitle": true
+  "rest-client.requestNameAsResponseTabTitle": true,
+  "rest-client.previewOption": "body"
 }

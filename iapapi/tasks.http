@@ -16,14 +16,12 @@ Authorization: {{token}}
 
 ### TASK details given TDN
 
-// @name task
 @taskid = tdn.8faf914ef7b64f4a85cff3a4453c2f11
 GET {{baseUrl}}/tasks/{{taskid}}
 Authorization: {{token}}
 
 ### TASK-RUN details given TRN
 
-// @name taskrun
 @taskrunid = trn.2ba3087f76cd4b8f9c54415767467740
 GET {{baseUrl}}/tasks/runs/{{taskrunid}}
 Authorization: {{token}}
