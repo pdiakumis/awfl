@@ -16,27 +16,36 @@ Authorization: {{token}}
 
 ### TASK details given TDN
 
-GET {{baseUrl}}/tasks/tdn.8faf914ef7b64f4a85cff3a4453c2f11
+// @name task
+@taskid = tdn.8faf914ef7b64f4a85cff3a4453c2f11
+GET {{baseUrl}}/tasks/{{taskid}}
 Authorization: {{token}}
 
 ### TASK-RUN details given TRN
 
-GET {{baseUrl}}/tasks/runs/trn.2ba3087f76cd4b8f9c54415767467740
+// @name taskrun
+@taskrunid = trn.2ba3087f76cd4b8f9c54415767467740
+GET {{baseUrl}}/tasks/runs/{{taskrunid}}
 Authorization: {{token}}
 
 ### TASK-VERSIONS given TDN
 
-GET {{baseUrl}}/tasks/tdn.8faf914ef7b64f4a85cff3a4453c2f11/versions
+// @name taskversions
+GET {{baseUrl}}/tasks/{{taskid}}/versions
+?pageSize=5
+&sort=timeCreated desc
 Authorization: {{token}}
 
 ### TASK-VERSION details given TDN, TVN
 
-GET {{baseUrl}}/tasks/tdn.8faf914ef7b64f4a85cff3a4453c2f11/versions/tvn.ce6dbb65e19047c9bf1a4801bfc512f9
+# get the most recent version
+@versionid = {{taskversions.response.body.$.items[0].id}}
+GET {{baseUrl}}/tasks/{{taskid}}/versions/{{versionid}}
 Authorization: {{token}}
 
 
 ### TASK-RUN abort given TRN
 
-@trnid = trn.ac37eb3204e24cadb912892036668e2d
-PUT {{baseUrl}}/tasks/runs/{{trnid}}:abort
+@abort_taskrunid = trn.ac37eb3204e24cadb912892036668e2d
+PUT {{baseUrl}}/tasks/runs/{{abort_taskrunid}}:abort
 Authorization: {{token}}

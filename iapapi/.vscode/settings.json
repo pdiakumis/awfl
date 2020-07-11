@@ -6,5 +6,7 @@
     "stratus": {
       "baseUrl": "{{$shared baseUrl}}"
     }
-  }
+  },
+  "rest-client.previewResponsePanelTakeFocus": false,
+  "rest-client.requestNameAsResponseTabTitle": true
 }
