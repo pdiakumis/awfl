@@ -1,15 +1,16 @@
+@baseUrl = {{$processEnv IAP_BASE_URL}}
 @token = Bearer {{$processEnv IAP_ACCESS_TOKEN}}
 
 ### TASKS
 
-GET {{baseUrl}}/tasks
+GET {{baseUrl}}/v1/tasks
 ?pageSize=5
 &sort=timeCreated desc
 Authorization: {{token}}
 
 ### TASK-RUNS
 
-GET {{baseUrl}}/tasks/runs
+GET {{baseUrl}}/v1/tasks/runs
 ?pageSize=5
 &sort=timeCreated desc
 Authorization: {{token}}
@@ -17,19 +18,19 @@ Authorization: {{token}}
 ### TASK details given TDN
 
 @taskid = tdn.8faf914ef7b64f4a85cff3a4453c2f11
-GET {{baseUrl}}/tasks/{{taskid}}
+GET {{baseUrl}}/v1/tasks/{{taskid}}
 Authorization: {{token}}
 
 ### TASK-RUN details given TRN
 
 @taskrunid = trn.2ba3087f76cd4b8f9c54415767467740
-GET {{baseUrl}}/tasks/runs/{{taskrunid}}
+GET {{baseUrl}}/v1/tasks/runs/{{taskrunid}}
 Authorization: {{token}}
 
 ### TASK-VERSIONS given TDN
 
 // @name taskversions
-GET {{baseUrl}}/tasks/{{taskid}}/versions
+GET {{baseUrl}}/v1/tasks/{{taskid}}/versions
 ?pageSize=5
 &sort=timeCreated desc
 Authorization: {{token}}
@@ -38,12 +39,12 @@ Authorization: {{token}}
 
 # get the most recent version
 @versionid = {{taskversions.response.body.$.items[0].id}}
-GET {{baseUrl}}/tasks/{{taskid}}/versions/{{versionid}}
+GET {{baseUrl}}/v1/tasks/{{taskid}}/versions/{{versionid}}
 Authorization: {{token}}
 
 
 ### TASK-RUN abort given TRN
 
 @abort_taskrunid = trn.ac37eb3204e24cadb912892036668e2d
-PUT {{baseUrl}}/tasks/runs/{{abort_taskrunid}}:abort
+PUT {{baseUrl}}/v1/tasks/runs/{{abort_taskrunid}}:abort
 Authorization: {{token}}
