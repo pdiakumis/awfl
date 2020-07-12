@@ -1,0 +1,11 @@
+@baseUrl = {{$processEnv IAP_BASE_URL}}
+@token = Bearer {{$processEnv IAP_ACCESS_TOKEN}}
+
+### FILE list in volume
+
+@volume = diakumis
+GET {{baseUrl}}/v1/files
+?volume.name={{volume}}
+&pageSize=5
+Authorization: {{token}}
+

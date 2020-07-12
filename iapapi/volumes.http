@@ -1,0 +1,15 @@
+@baseUrl = {{$processEnv IAP_BASE_URL}}
+@token = Bearer {{$processEnv IAP_ACCESS_TOKEN}}
+
+### Volume list
+
+GET {{baseUrl}}/v1/volumes
+?pageSize=5
+&sort=timeCreated desc
+Authorization: {{token}}
+
+### Volume details
+
+@volumeid = vol.e67aba2902d84b85498e08d737e44d41
+GET {{baseUrl}}/v1/volumes/{{volumeid}}
+Authorization: {{token}}
