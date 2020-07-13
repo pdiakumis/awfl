@@ -1,0 +1,46 @@
+@baseUrl = {{$processEnv IAP_BASE_URL}}
+@token = Bearer {{$processEnv IAP_ACCESS_TOKEN}}
+
+
+### WORKFLOW
+
+// @name workflow
+POST {{baseUrl}}/v1/workflows
+Authorization: {{token}}
+Content-Type: application/json
+
+< ./workflow.json
+
+### WORKFLOW VERSION
+
+# @workflowid = {{workflow.response.body.$.id}}
+@workflowid = wfl.c1009a3f2b154153b386c12ce573d61b
+// @name workflowversion
+POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions
+Authorization: {{token}}
+Content-Type: application/json
+
+< ./version.json
+
+### LAUNCH Workflow Version
+
+# @vname = {{workflowversion.response.body.$.version}}
+@vname = echoToStdoutRedirect2
+// @name workflowrun
+POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions/{{vname}}:launch
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "Name": "exampleRun2",
+    "Input": "{\r\n  \"message_in\": \"a beautiful string\"\r\n}"
+}
+
+### HISTORY
+
+# @workflowrunid = @{{workflowrun.response.body.$.id}}
+@workflowrunid = wfr.502797a2e36f4eb590d715e05c2c8290
+GET {{baseUrl}}/v1/workflows/runs/{{workflowrunid}}/history
+?pageSize=100
+&sort=eventId
+Authorization: {{token}}
