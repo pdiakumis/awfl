@@ -1,0 +1,23 @@
+{
+  "name": "awfl",
+  "version": "0.0.9000",
+  "description": "Running amazing workflows on the Illumina Analytics Platform",
+  "main": "bin/index.js",
+  "bin": {
+    "awfl": "./bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umccr/awfl.git"
+  },
+  "author": "Peter Diakumis (https://github.com/pdiakumis)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/umccr/awfl/issues"
+  },
+  "homepage": "https://github.com/umccr/awfl#readme"
+}
