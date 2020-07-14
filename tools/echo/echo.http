@@ -2,7 +2,7 @@
 @token = Bearer {{$processEnv IAP_ACCESS_TOKEN}}
 
 
-### WORKFLOW
+### Parent
 
 // @name workflow
 POST {{baseUrl}}/v1/workflows
@@ -11,10 +11,11 @@ Content-Type: application/json
 
 < ./workflow.json
 
-### WORKFLOW VERSION
+### Version
 
 # @workflowid = {{workflow.response.body.$.id}}
 @workflowid = wfl.c1009a3f2b154153b386c12ce573d61b
+
 // @name workflowversion
 POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions
 Authorization: {{token}}
@@ -22,7 +23,7 @@ Content-Type: application/json
 
 < ./version.json
 
-### LAUNCH Workflow Version
+### Launch
 
 # @vname = {{workflowversion.response.body.$.version}}
 @vname = echoToStdoutRedirect2
@@ -31,12 +32,10 @@ POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions/{{vname}}:launch
 Authorization: {{token}}
 Content-Type: application/json
 
-{
-    "Name": "exampleRun2",
-    "Input": "{\r\n  \"message_in\": \"a beautiful string\"\r\n}"
-}
+< ./launch.json
 
-### HISTORY
+
+### History
 
 # @workflowrunid = @{{workflowrun.response.body.$.id}}
 @workflowrunid = wfr.502797a2e36f4eb590d715e05c2c8290
