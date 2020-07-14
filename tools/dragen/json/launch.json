@@ -1,0 +1,21 @@
+{
+    "Name": "dragenGermlineTest",
+    "Input": {
+        "rgsm": "PTC_TsqN200327_L2000243_topup",
+        "rgid": "PTC_TsqN200327_L2000243_topup",
+        "refdata": {
+            "class": "File",
+            "location": "gds://umccr-refdata-dev/dragen/hsapiens/hg38/3.5.2_ht.tar"
+        },
+        "outprefix": "PTC_TsqN200327_L2000243_topup",
+        "outdir": "dragenGermline-PTC_TsqN200327_L2000243_topup",
+        "fq2": {
+            "class": "File",
+            "location": "gds://wfr.27a0398848004e71880aabb302fc9d32/umccr__automated__bcl_convert__200612_A01052_0017_BH5LYWDSXY__r.AnPk0ox1OU-pACGtvTEST3__1594361431/bclConversion_launch/try-1/out-dir-bclConvert/PTC_TsqN200511_L2000436_S6_L004_R2_001.fastq.gz"
+        },
+        "fq1": {
+            "class": "File",
+            "location": "gds://wfr.27a0398848004e71880aabb302fc9d32/umccr__automated__bcl_convert__200612_A01052_0017_BH5LYWDSXY__r.AnPk0ox1OU-pACGtvTEST3__1594361431/bclConversion_launch/try-1/out-dir-bclConvert/PTC_TsqN200511_L2000436_S6_L004_R1_001.fastq.gz"
+        }
+    }
+}

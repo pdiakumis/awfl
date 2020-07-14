@@ -15,7 +15,6 @@ Content-Type: application/json
 
 # @workflowid = {{workflow.response.body.$.id}}
 @workflowid = wfl.c1009a3f2b154153b386c12ce573d61b
-
 // @name workflowversion
 POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions
 Authorization: {{token}}
@@ -26,7 +25,7 @@ Content-Type: application/json
 ### Launch
 
 # @vname = {{workflowversion.response.body.$.version}}
-@vname = echoToStdoutRedirect2
+@vname = dragenGermlineV1
 // @name workflowrun
 POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions/{{vname}}:launch
 Authorization: {{token}}
@@ -34,11 +33,10 @@ Content-Type: application/json
 
 < ./json/launch.json
 
-
 ### History
 
 # @workflowrunid = @{{workflowrun.response.body.$.id}}
-@workflowrunid = wfr.502797a2e36f4eb590d715e05c2c8290
+@workflowrunid = wfr.76b673ded4d94170968a7646fbb0d09c
 GET {{baseUrl}}/v1/workflows/runs/{{workflowrunid}}/history
 ?pageSize=100
 &sort=eventId
