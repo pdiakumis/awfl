@@ -8,6 +8,7 @@ Node.js application that helps to run bioinformatic workflows on the Illumina An
   - [Step3: Workflow Launch](#step3-workflow-launch)
   - [Workflow Event History](#workflow-event-history)
   - [Abort Workflow Run](#abort-workflow-run)
+- [CLI](#cli)
 
 ## General Steps
 
@@ -102,3 +103,34 @@ Abort workflow run.
 ```http
 PUT {{baseUrl}}/v1/tasks/runs/{{workflowrunid}}:abort
 ```
+
+## CLI
+
+Take following inputs:
+
+- `--cwl | -c`: Path to CWL file
+- `--name_version | -n`: Name to use for version
+- `--name_launch | -l`: Name to use for launch
+
+- validate it with `cwltool --validate`
+  - if it doesn't pass, exit
+  - if it passes, continue
+- convert to 'packed' json version with `cwltool --pack`
+  - write with suffix `.packed.json`
+- create a new json 'version' that looks like:
+  - write as `<NameOfVersion>.json`
+
+```json
+{
+  "Version": "<NameOfVersion>",
+  "Language": {
+    "Name": "cwl"
+  },
+  "Definition": "<CWL packed>"
+}
+```
+
+- create a new 'inputs' yaml with `cwltool --make-template`
+  - input is the packed CWL
+  - output in json format via `js-yaml` module
+
