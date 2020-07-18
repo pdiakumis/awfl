@@ -9,6 +9,8 @@ Node.js application that helps to run bioinformatic workflows on the Illumina An
   - [Workflow Event History](#workflow-event-history)
   - [Abort Workflow Run](#abort-workflow-run)
 - [CLI](#cli)
+  - [Output1: JSON for version](#output1-json-for-version)
+  - [Output2: JSON for launch](#output2-json-for-launch)
 
 ## General Steps
 
@@ -27,10 +29,12 @@ All steps require the following environmental variables:
 
 ```http
 POST {{baseUrl}}/v1/workflows
+```
 
+```json
 {
-    "name": "<WorkflowName>",
-    "description": "<WorkflowDescription>"
+  "name": "<WorkflowName>",
+  "description": "<WorkflowDescription>"
 }
 ```
 
@@ -45,7 +49,9 @@ POST {{baseUrl}}/v1/workflows
 
 ```http
 POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions
+```
 
+```json
 {
     "Version": "<NameOfVersion>",
     "Language": {
@@ -63,13 +69,15 @@ POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions
   - workflowid (`wfl.xxx`)
   - NameOfVersion
   - NameOfLaunch
-  - CWL inputs jsonised (`cwltool --make-template foo-pack.cwl | yq '.'`)
+  - CWL inputs jsonised (`cwltool --make-template foo-pack.cwl`)
 - Output:
   - workflowrunid (`wfr.xxx`)
 
 ```http
 POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions/{{NameOfVersion}}:launch
+```
 
+```json
 {
     "Name": "<NameOfLaunch>",
     "Input": {
@@ -106,31 +114,55 @@ PUT {{baseUrl}}/v1/tasks/runs/{{workflowrunid}}:abort
 
 ## CLI
 
-Take following inputs:
+Step 2 (Version) and Step 3 (Launch) can be automated a bit more, by
+generating the required JSON bodies.
 
-- `--cwl | -c`: Path to CWL file
-- `--name_version | -n`: Name to use for version
-- `--name_launch | -l`: Name to use for launch
+`awfl -c <PathToCwlYaml> -v <NameOfVersion> -l <NameOfLaunch>`
 
-- validate it with `cwltool --validate`
-  - if it doesn't pass, exit
-  - if it passes, continue
-- convert to 'packed' json version with `cwltool --pack`
-  - write with suffix `.packed.json`
-- create a new json 'version' that looks like:
-  - write as `<NameOfVersion>.json`
+Option description:
+
+- `-c <PathToCwlYaml>`: path to original CWL file
+- `-v <NameOfVersion>`: name given to workflow version (default: 'version1')
+- `-l <NameOfLaunch>`: name given to launched workflow (default: 'launch1')
+
+Algorithm:
+
+- Validate CWL file using `cwltool --validate <PathToCwlYaml>`
+  - if it fails validation, exit with error message
+  - if it passes validation, continue
+- Run `cwltool --pack <PathToCwlYaml>`
+  - output to `<PathToCwlYaml>-packed.json`
+  - create 'version' JSON, that has a 'Version'
+    and the packed CWL as its 'Definition'
+  - Output JSON named as `<NameOfVersion>.json`
+- Run `cwltool --make-template <PathToCwlYaml>-packed.json`
+  - read in the generated YAML inputs with `js-yaml`
+  - create 'launch' JSON, that has a 'Name'
+    and the CWL inputs as JSON
+
+### Output1: JSON for version
 
 ```json
+// <NameOfVersion>.json
 {
-  "Version": "<NameOfVersion>",
-  "Language": {
-    "Name": "cwl"
-  },
-  "Definition": "<CWL packed>"
+    "Version": "<NameOfVersion>",
+    "Language": {
+        "Name": "cwl"
+    },
+    "Definition": {
+        "<CWL packed>"
+    }
 }
 ```
 
-- create a new 'inputs' yaml with `cwltool --make-template`
-  - input is the packed CWL
-  - output in json format via `js-yaml` module
+### Output2: JSON for launch
 
+```json
+// <NameOfLaunch>.json
+{
+    "Name": "<NameOfLaunch>",
+    "Input": {
+        "<CWL inputs jsonised>"
+    }
+}
+```
