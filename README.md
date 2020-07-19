@@ -9,8 +9,9 @@ Node.js application that helps to run bioinformatic workflows on the Illumina An
   - [Workflow Event History](#workflow-event-history)
   - [Abort Workflow Run](#abort-workflow-run)
 - [CLI](#cli)
-  - [Output1: JSON for version](#output1-json-for-version)
-  - [Output2: JSON for launch](#output2-json-for-launch)
+  - [Output1: JSON packed CWL](#output1-json-packed-cwl)
+  - [Output2: JSON for version](#output2-json-for-version)
+  - [Output3: JSON for launch](#output3-json-for-launch)
 
 ## General Steps
 
@@ -140,7 +141,25 @@ Algorithm:
   - create 'launch' JSON, that has a 'Name'
     and the CWL inputs as JSON
 
-### Output1: JSON for version
+### Output1: JSON packed CWL
+
+```json
+// <cwl_file>-packed.json
+{
+  "class": "CommandLineTool",
+  "label": "foo",
+  "doc": "foo",
+  "requirements": [],
+  "baseCommand": ["echo"],
+  "arguments": [],
+  "inputs": [{}, {}],
+  "outputs": [{}, {}],
+  "id": "#main",
+  "cwlVersion": "v1.1"
+}
+```
+
+### Output2: JSON for version
 
 ```json
 // <NameOfVersion>.json
@@ -155,7 +174,7 @@ Algorithm:
 }
 ```
 
-### Output2: JSON for launch
+### Output3: JSON for launch
 
 ```json
 // <NameOfLaunch>.json

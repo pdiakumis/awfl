@@ -8,4 +8,4 @@ const chalk = require("chalk");
 const cli = require("../src/cli").argv;
 const files = require("../src/files");
 
-files.cwltool_validate(cli.cwl);
+files.write_workflow_json(cli.cwl, cli.versionName, cli.launchName);
