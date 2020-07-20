@@ -60,7 +60,7 @@ const cwltool_pack = function (cwl) {
 
   let cwl_dirname = path.dirname(cwl);
   let cwl_base = path.parse(cwl).name;
-  let cwl_packed = path.join(cwl_dirname, cwl_base) + "-packed.cwl";
+  let cwl_packed = path.join(cwl_dirname, cwl_base) + "-packed.json";
 
   let cmd = shell.exec(`cwltool --pack ${cwl}`, {
     silent: true,
@@ -103,7 +103,10 @@ const cwltool_make_template = function (cwl) {
 const write_workflow_launch = function (cwl, launchName) {
   // write to path/to/cwl/json/launchName.json
   let input_yaml = cwltool_make_template(cwl);
-  let json_path = path.join(path.dirname(cwl), "json", launchName + ".json");
+  let json_path = path.join(
+    path.dirname(cwl),
+    "launch_" + launchName + ".json"
+  );
 
   try {
     console.log(
@@ -128,7 +131,7 @@ const write_workflow_launch = function (cwl, launchName) {
 const write_workflow_version = function (cwl, versionName) {
   // write to path/to/cwl/json/versionName.json
   let cwl_packed = JSON.parse(cwltool_pack(cwl).json);
-  let json_path = path.join(path.dirname(cwl), "json", versionName + ".json");
+  let json_path = path.join(path.dirname(cwl), "version.json");
 
   var json_template = {
     Version: versionName,

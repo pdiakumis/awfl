@@ -12,6 +12,7 @@ Node.js application that helps to run bioinformatic workflows on the Illumina An
   - [Output1: JSON packed CWL](#output1-json-packed-cwl)
   - [Output2: JSON for version](#output2-json-for-version)
   - [Output3: JSON for launch](#output3-json-for-launch)
+- [Structure](#structure)
 
 ## General Steps
 
@@ -184,4 +185,24 @@ Algorithm:
         "<CWL inputs jsonised>"
     }
 }
+```
+
+## Structure
+
+```text
+tools/
+  |---tool1/
+     |---tool1.http
+     |---version1/
+       |---tool1.cwl
+       |---tool1-packed.json
+       |---version.json
+       |---launchA.json
+       |---launchB.json
+     |---version2/
+       |---tool1.cwl
+       |---tool1-packed.json
+       |---version.json
+       |---launchA.json
+       |---launchB.json
 ```
