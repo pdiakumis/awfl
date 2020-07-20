@@ -9,36 +9,40 @@ POST {{baseUrl}}/v1/workflows
 Authorization: {{token}}
 Content-Type: application/json
 
-< ./json/workflow.json
+{
+  "name": "PD_echo",
+  "description": "echo testing"
+}
+
 
 ### Version
 
-# @workflowid = {{workflow.response.body.$.id}}
-@workflowid = wfl.c1009a3f2b154153b386c12ce573d61b
+@workflowid = {{workflow.response.body.$.id}}
+# @workflowid = wfl.3e6b9eb5c41844ff8e97ba52aedfa0d5
 
 // @name workflowversion
 POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions
 Authorization: {{token}}
 Content-Type: application/json
 
-< ./json/version.json
+< ./echoToStdoutRedirect/version.json
 
 ### Launch
 
 # @vname = {{workflowversion.response.body.$.version}}
-@vname = echoToStdoutRedirect2
+@vname = echoToStdoutRedirect
 // @name workflowrun
 POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions/{{vname}}:launch
 Authorization: {{token}}
 Content-Type: application/json
 
-< ./json/launch.json
+< ./echoToStdoutRedirect/launch_test1.json
 
 
 ### History
 
 # @workflowrunid = @{{workflowrun.response.body.$.id}}
-@workflowrunid = wfr.502797a2e36f4eb590d715e05c2c8290
+@workflowrunid = wfr.1ed63b21c6b1430d80c510c4f15839a9
 GET {{baseUrl}}/v1/workflows/runs/{{workflowrunid}}/history
 ?pageSize=100
 &sort=eventId
