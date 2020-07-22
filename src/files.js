@@ -85,7 +85,7 @@ const cwltool_pack = function (cwl) {
  * @returns {string} Output YAML from 'cwltool --make-template <cwl>'
  */
 const cwltool_make_template = function (cwl) {
-  console.log(chalk.yellow("Generating CWL template input object"));
+  console.log(chalk.yellow("Generating CWL template input object (YAML)"));
 
   let cmd = shell.exec(`cwltool --make-template ${cwl}`, {
     silent: true,
@@ -101,16 +101,22 @@ const cwltool_make_template = function (cwl) {
  * @param {string} launchName Workflow launch name.
  */
 const write_workflow_launch = function (cwl, launchName) {
-  // write to path/to/cwl/json/launchName.json
   let input_yaml = cwltool_make_template(cwl);
+  let yaml_path = path.join(
+    path.dirname(cwl),
+    "launch_local_" + launchName + ".yaml"
+  );
   let json_path = path.join(
     path.dirname(cwl),
-    "launch_" + launchName + ".json"
+    "launch_gds_" + launchName + ".json"
   );
 
   try {
     console.log(
-      chalk.yellow(`Writing jsonised CWL template input object to ${json_path}`)
+      chalk.yellow(
+        "Writing YAML and JSONised CWL inputs to",
+        `\n'${json_path}' and \n'${yaml_path}'`
+      )
     );
     let yaml2json = yaml.safeLoad(input_yaml);
     let output_json = {
@@ -118,6 +124,7 @@ const write_workflow_launch = function (cwl, launchName) {
       Input: yaml2json,
     };
     output_json = JSON.stringify(output_json, null, 4);
+    fs.writeFileSync(yaml_path, input_yaml);
     fs.writeFileSync(json_path, output_json);
   } catch (err) {
     console.error(chalk.red(err));
