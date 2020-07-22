@@ -9,29 +9,33 @@ POST {{baseUrl}}/v1/workflows
 Authorization: {{token}}
 Content-Type: application/json
 
-< ./json/workflow.json
+{
+    "name": "PD_dragen_somatic",
+    "description": "dragen somatic testing"
+}
 
 ### Version
 
-# @workflowid = {{workflow.response.body.$.id}}
-@workflowid = wfl.c1009a3f2b154153b386c12ce573d61b
+@workflowid = {{workflow.response.body.$.id}}
+# @workflowid = wfl.126aeca88a614aa5a5cacd470a47136b
+
 // @name workflowversion
 POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions
 Authorization: {{token}}
 Content-Type: application/json
 
-< ./json/version.json
+< ./dragenSomaticFastqInput/version.json
 
 ### Launch
 
 # @vname = {{workflowversion.response.body.$.version}}
-@vname = dragenGermlineV1
+@vname = dragenSomaticFastqInput
 // @name workflowrun
 POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions/{{vname}}:launch
 Authorization: {{token}}
 Content-Type: application/json
 
-< ./json/launch.json
+< ./dragenSomaticFastqInput/launch.json
 
 ### History
 
