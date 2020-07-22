@@ -25,8 +25,6 @@ arguments:
 inputs:
   message_in:
     type: string
-    inputBinding:
-      position: 1
     label: Message to output
 
 outputs:

@@ -36,9 +36,6 @@
         "inputs": [
             {
                 "type": "string",
-                "inputBinding": {
-                    "position": 1
-                },
                 "label": "Message to output",
                 "id": "#main/message_in"
             }
