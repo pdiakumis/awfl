@@ -16,8 +16,8 @@ Content-Type: application/json
 
 ### Version
 
-@workflowid = {{workflow.response.body.$.id}}
-# @workflowid = wfl.126aeca88a614aa5a5cacd470a47136b
+# @workflowid = {{workflow.response.body.$.id}}
+@workflowid = wfl.126aeca88a614aa5a5cacd470a47136b
 
 // @name workflowversion
 POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions
@@ -40,7 +40,7 @@ Content-Type: application/json
 ### History
 
 # @workflowrunid = @{{workflowrun.response.body.$.id}}
-@workflowrunid = wfr.d7920c19fd654415aa34536079ab4139
+@workflowrunid = wfr.1f0df9562c2844bea154d0c22dfad799
 GET {{baseUrl}}/v1/workflows/runs/{{workflowrunid}}/history
 ?pageSize=100
 &sort=eventId
@@ -51,3 +51,11 @@ Authorization: {{token}}
 # @abort_wfrunid = {{workflowrunid}}
 # PUT {{baseUrl}}/v1/tasks/runs/{{abort_wfrunid}}:abort
 # Authorization: {{token}}
+
+### PATCH Workflow Version
+
+PATCH {{baseUrl}}/v1/workflows/{{workflowid}}/versions/{{vname}}
+Authorization: {{token}}
+Content-Type: application/json
+
+< ./dragenSomaticFastqInput/version_patched.json
