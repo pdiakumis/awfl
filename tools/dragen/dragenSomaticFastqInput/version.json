@@ -1,5 +1,5 @@
 {
-    "Version": "dragenGermlineV1",
+    "Version": "dragenSomaticFastqInput",
     "Language": {
         "Name": "cwl"
     },
@@ -16,7 +16,7 @@
             },
             {
                 "class": "DockerRequirement",
-                "dockerPull": "699120554104.dkr.ecr.us-east-1.amazonaws.com/stratus/dragen:3.5.2"
+                "dockerPull": "699120554104.dkr.ecr.us-east-1.amazonaws.com/stratus/dragen:3.6.3"
             },
             {
                 "class": "InlineJavascriptRequirement"
@@ -30,18 +30,26 @@
         ],
         "arguments": [
             {
-                "valueFrom": "--partial-reconfig DNA-MAPPER --ignore-version-check true && \\\\\nmkdir -p /ephemeral/ref && \\\\\ntar -C /ephemeral/ref -xvf \"$(inputs.refdata.path)\" && \\\\\nmkdir \"$(inputs.outdir)\" && \\\\\n/opt/edico/bin/dragen --lic-instance-id-location /opt/instance-identity -f -r /ephemeral/ref -1 \"$(inputs.fq1.path)\" -2 \"$(inputs.fq2.path)\" --RGID \"$(inputs.rgid)\" --RGSM \"$(inputs.rgsm)\" --output-file-prefix \"$(inputs.outprefix)\" --output-directory \"$(inputs.outdir)\" --enable-duplicate-marking true --enable-map-align-output true --enable-variant-caller true",
+                "valueFrom": "--partial-reconfig DNA-MAPPER --ignore-version-check true && \\\\\nmkdir -p /ephemeral/ref && \\\\\ntar -C /ephemeral/ref -xvf \"$(inputs.refdata.path)\" && \\\\\nmkdir \"$(inputs.outdir)\" && \\\\\n/opt/edico/bin/dragen --lic-instance-id-location /opt/instance-identity -f -r /ephemeral/ref -1 \"$(inputs.fq_n1.path)\" -2 \"$(inputs.fq_n2.path)\" --RGID \"$(inputs.rgid_n)\" --RGSM \"$(inputs.rgsm_n)\" --tumor-fastq1 \"$(inputs.fq_t1.path)\" --tumor-fastq2 \"$(inputs.fq_t2.path)\" --RGID-tumor \"$(inputs.rgid_t)\" --RGSM-tumor \"$(inputs.rgsm_t)\" --output-file-prefix \"$(inputs.outprefix)\" --output-directory \"$(inputs.outdir)\" --enable-duplicate-marking true --enable-map-align-output true --enable-variant-caller true --enable-sv true",
                 "shellQuote": false
             }
         ],
         "inputs": [
             {
                 "type": "File",
-                "id": "#main/fq1"
+                "id": "#main/fq_n1"
             },
             {
                 "type": "File",
-                "id": "#main/fq2"
+                "id": "#main/fq_n2"
+            },
+            {
+                "type": "File",
+                "id": "#main/fq_t1"
+            },
+            {
+                "type": "File",
+                "id": "#main/fq_t2"
             },
             {
                 "type": "string",
@@ -57,11 +65,19 @@
             },
             {
                 "type": "string",
-                "id": "#main/rgid"
+                "id": "#main/rgid_n"
             },
             {
                 "type": "string",
-                "id": "#main/rgsm"
+                "id": "#main/rgid_t"
+            },
+            {
+                "type": "string",
+                "id": "#main/rgsm_n"
+            },
+            {
+                "type": "string",
+                "id": "#main/rgsm_t"
             }
         ],
         "outputs": [
@@ -77,7 +93,7 @@
                 "outputBinding": {
                     "glob": "$(inputs.outdir)"
                 },
-                "id": "#main/dragenGermlineOutput"
+                "id": "#main/dragenSomaticOutput"
             }
         ],
         "id": "#main",

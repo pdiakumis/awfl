@@ -40,7 +40,7 @@ Content-Type: application/json
 ### History
 
 # @workflowrunid = @{{workflowrun.response.body.$.id}}
-@workflowrunid = wfr.76b673ded4d94170968a7646fbb0d09c
+@workflowrunid = wfr.d7920c19fd654415aa34536079ab4139
 GET {{baseUrl}}/v1/workflows/runs/{{workflowrunid}}/history
 ?pageSize=100
 &sort=eventId
