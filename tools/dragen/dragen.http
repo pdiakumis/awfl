@@ -40,7 +40,7 @@ Content-Type: application/json
 ### History
 
 # @workflowrunid = @{{workflowrun.response.body.$.id}}
-@workflowrunid = wfr.1f0df9562c2844bea154d0c22dfad799
+@workflowrunid = wfr.50c7447d87e94d9b9e238040eeade26f
 GET {{baseUrl}}/v1/workflows/runs/{{workflowrunid}}/history
 ?pageSize=100
 &sort=eventId
@@ -48,9 +48,15 @@ Authorization: {{token}}
 
 ### ABORT WORKFLOW RUN
 
-# @abort_wfrunid = {{workflowrunid}}
-# PUT {{baseUrl}}/v1/tasks/runs/{{abort_wfrunid}}:abort
-# Authorization: {{token}}
+# @abort_wfrunid = wfr.85b646c7408a4a93b63026dc0979d226
+PUT {{baseUrl}}/v1/workflows/runs/{{abort_wfrunid}}:abort
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "error": "wrongDragenImage",
+    "cause": "UsePublic"
+}
 
 ### PATCH Workflow Version
 
