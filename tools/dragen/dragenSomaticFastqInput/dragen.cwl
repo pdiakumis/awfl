@@ -8,7 +8,7 @@ hints:
         type: fpga
         size: medium
   - class: DockerRequirement
-    dockerPull: '699120554104.dkr.ecr.us-east-1.amazonaws.com/stratus/dragen:3.5.7'
+    dockerPull: '699120554104.dkr.ecr.us-east-1.amazonaws.com/public/dragen:3.6.3'
   - class: InlineJavascriptRequirement
   - class: ShellCommandRequirement
 

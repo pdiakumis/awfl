@@ -7,7 +7,7 @@
     "rgid_n": "SBJ00124_N",
     "refdata": {
       "class": "File",
-      "location": "gds://umccr-refdata-dev/dragen/hsapiens/hg38/3.5.7_ht.tar"
+      "location": "gds://umccr-refdata-dev/dragen/hsapiens/hg38/3.6.3_ht.tar"
     },
     "outprefix": "SBJ00124",
     "outdir": "SBJ00124_dragen_results",
