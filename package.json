@@ -21,9 +21,11 @@
     },
     "homepage": "https://github.com/umccr/awfl#readme",
     "dependencies": {
+        "@caporal/core": "^2.0.2",
+        "axios": "^0.19.2",
         "chalk": "^4.1.0",
-        "commander": "^5.1.0",
         "js-yaml": "^3.14.0",
+        "json2csv": "^5.0.1",
         "shelljs": "^0.8.4"
     }
 }
