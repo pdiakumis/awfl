@@ -2,20 +2,23 @@
 
 Node.js application that helps to run bioinformatic workflows on the Illumina Analytics Platform.
 
-- [General Steps](#general-steps)
+- [CWL-2-JSON](#cwl-2-json)
   - [Step1: Workflow Parent](#step1-workflow-parent)
   - [Step2: Workflow Version](#step2-workflow-version)
   - [Step3: Workflow Launch](#step3-workflow-launch)
   - [Workflow Event History](#workflow-event-history)
   - [Abort Workflow Run](#abort-workflow-run)
 - [CLI](#cli)
-  - [Output1: JSON packed CWL](#output1-json-packed-cwl)
-  - [Output2: JSON for version](#output2-json-for-version)
-  - [Output3: JSON for launch](#output3-json-for-launch)
-- [Structure](#structure)
+  - [cwl](#cwl)
+    - [Output1: JSON packed CWL](#output1-json-packed-cwl)
+    - [Output2: JSON for version](#output2-json-for-version)
+    - [Output3: JSON for launch](#output3-json-for-launch)
+  - [Structure](#structure)
 
-## General Steps
+## CWL-2-JSON
 
+We can generate JSON bodies required for setting up
+and launching a workflow version.
 All steps require the following environmental variables:
 
 - `IAP_BASE_URL`: `https://aps2.platform.illumina.com`
@@ -116,6 +119,8 @@ PUT {{baseUrl}}/v1/tasks/runs/{{workflowrunid}}:abort
 
 ## CLI
 
+### cwl
+
 Step 2 (Version) and Step 3 (Launch) can be automated a bit more, by
 generating the required JSON bodies.
 
@@ -142,7 +147,7 @@ Algorithm:
   - create 'launch' JSON, that has a 'Name'
     and the CWL inputs as JSON
 
-### Output1: JSON packed CWL
+#### Output1: JSON packed CWL
 
 ```json
 // <cwl_file>-packed.json
@@ -160,7 +165,7 @@ Algorithm:
 }
 ```
 
-### Output2: JSON for version
+#### Output2: JSON for version
 
 ```json
 // <NameOfVersion>.json
@@ -175,7 +180,7 @@ Algorithm:
 }
 ```
 
-### Output3: JSON for launch
+#### Output3: JSON for launch
 
 ```json
 // <NameOfLaunch>.json
@@ -187,7 +192,7 @@ Algorithm:
 }
 ```
 
-## Structure
+### Structure
 
 ```text
 tools/
