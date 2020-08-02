@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 const axios = require("axios").default;
+const path = require("path");
+const fs = require("fs").promises;
 const utils = require("./utils");
 const requestOpts = require("./illumina").requestOpts;
-const utils = require("./utils");
 
 /**
  * Get the volume name from a GDS file path input.
@@ -57,6 +58,28 @@ async function getPresignedUrl(gdsFile) {
     utils.printError(error);
   }
 }
+
+async function savePresignedUrls(inCsv, outCsv) {
+  try {
+    const arrOfObj = utils.readCsv(inCsv);
+    let csv = "RGID,RGSM,RGLB,Lane,Read1File,Read2File\n";
+    await Promise.all(
+      arrOfObj.map(async o => {
+        const url1 = await getPresignedUrl(o["Read1File"]);
+        const url2 = await getPresignedUrl(o["Read2File"]);
+        csv += `${o["RGID"]},${o["RGSM"]},${o["RGLB"]},${o["Lane"]},${url1},${url2}\n`;
+      })
+    );
+    await fs.writeFile(outCsv, csv);
+  } catch (error) {
+    console.error(`Could not save entries to file: ${error}`);
+  }
+}
+
+savePresignedUrls(
+  path.join(__dirname, "./2020-07-30_samples28.csv"),
+  "./foo.csv"
+);
 
 module.exports = {
   getPresignedUrl: getPresignedUrl,
