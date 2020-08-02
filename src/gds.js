@@ -3,6 +3,7 @@
 const axios = require("axios").default;
 const path = require("path");
 const fs = require("fs").promises;
+const shell = require("shelljs");
 const utils = require("./utils");
 const requestOpts = require("./illumina").requestOpts;
 
@@ -59,28 +60,30 @@ async function getPresignedUrl(gdsFile) {
   }
 }
 
-async function savePresignedUrls(inCsv, outCsv) {
+/**
+ * Generate presigned URLs for input GDS paths.
+ * @param {string} inCsv Input CSV with RGID, RGSM, RGLB, Lane, Read1File and Read2File columns.
+ * @param {string} outDir Output directory to write the CSV with presigned URLs.
+ */
+async function generatePresignedUrls(inCsv, outDir) {
   try {
+    shell.mkdir("-p", outDir);
     const arrOfObj = utils.readCsv(inCsv);
-    let csv = "RGID,RGSM,RGLB,Lane,Read1File,Read2File\n";
     await Promise.all(
       arrOfObj.map(async o => {
         const url1 = await getPresignedUrl(o["Read1File"]);
         const url2 = await getPresignedUrl(o["Read2File"]);
+        let csv = "RGID,RGSM,RGLB,Lane,Read1File,Read2File\n";
         csv += `${o["RGID"]},${o["RGSM"]},${o["RGLB"]},${o["Lane"]},${url1},${url2}\n`;
+        let outCsv = path.join(outDir, `${o["RGSM"]}_fastqInputsUrls.csv`);
+        await fs.writeFile(outCsv, csv);
       })
     );
-    await fs.writeFile(outCsv, csv);
   } catch (error) {
     console.error(`Could not save entries to file: ${error}`);
   }
 }
 
-savePresignedUrls(
-  path.join(__dirname, "./2020-07-30_samples28.csv"),
-  "./foo.csv"
-);
-
 module.exports = {
-  getPresignedUrl: getPresignedUrl,
+  generatePresignedUrls: generatePresignedUrls,
 };
