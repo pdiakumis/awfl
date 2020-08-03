@@ -1,0 +1,21 @@
+{
+  "Name": "dragenGermlineTest_SBJ00124_T",
+  "Input": {
+    "rgsm": "SBJ00124_T",
+    "rgid": "SBJ00124_T",
+    "refdata": {
+      "class": "File",
+      "location": "gds://umccr-refdata-dev/dragen/hsapiens/hg38/3.6.3_ht.tar"
+    },
+    "outprefix": "SBJ00124_T",
+    "outdir": "SBJ00124_T_dragen_results_germline",
+    "fq1": {
+      "class": "File",
+      "location": "gds://diakumis-dragen/SBJ00124/MDX190083_DNA051773-T_S5_R1_001.fastq.gz"
+    },
+    "fq2": {
+      "class": "File",
+      "location": "gds://diakumis-dragen/SBJ00124/MDX190083_DNA051773-T_S5_R2_001.fastq.gz"
+    }
+  }
+}
