@@ -1,0 +1,60 @@
+@baseUrl = {{$processEnv IAP_BASE_URL}}
+@token = Bearer {{$processEnv IAP_ACCESS_TOKEN}}
+
+
+### Parent
+
+// @name workflow
+POST {{baseUrl}}/v1/workflows
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "name": "PD_dragen_germline",
+    "description": "dragen germline testing"
+}
+
+### Version
+
+# @workflowid = {{workflow.response.body.$.id}}
+@workflowid = wfl.88eebd2526e64efab40fdc5491d35198
+
+// @name workflowversion
+POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions
+Authorization: {{token}}
+Content-Type: application/json
+
+< ./dragenGermlineCsvInput/version.json
+
+### Launch
+
+# @vname = {{workflowversion.response.body.$.version}}
+@vname = dragenGermlineCsvInput
+// @name workflowrun
+POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions/{{vname}}:launch
+Authorization: {{token}}
+Content-Type: application/json
+
+< ./dragenGermlineCsvInput/launch_N.json
+
+### History
+
+# @workflowrunid = @{{workflowrun.response.body.$.id}}
+@workflowrunid = wfr.c4653a3bc0c84a58ada22785894e2710
+GET {{baseUrl}}/v1/workflows/runs/{{workflowrunid}}/history
+?pageSize=100
+&sort=eventId
+Authorization: {{token}}
+
+### ABORT WORKFLOW RUN
+
+@abort_wfrunid = wfr.3b1a8279ff604db3b0f3a990661c4294
+PUT {{baseUrl}}/v1/workflows/runs/{{abort_wfrunid}}:abort
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "error": "fixOutPrefix",
+    "cause": "did not use _N suffix"
+}
+

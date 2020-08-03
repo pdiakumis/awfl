@@ -1,0 +1,15 @@
+{
+    "Name": "dragenGermline_SFRC_T",
+    "Input": {
+        "refdata": {
+            "class": "File",
+            "location": "gds://umccr-refdata-dev/dragen/hsapiens/hg38/3.6.3_ht.tar"
+        },
+        "outprefix": "SFRC_T",
+        "outdir": "SFRC_T",
+        "fqcsv": {
+            "class": "File",
+            "location": "gds://diakumis-dragen/fastq_csv_input/dragenGermline/SFRC_T_fastqInputsUrls.csv"
+        }
+    }
+}

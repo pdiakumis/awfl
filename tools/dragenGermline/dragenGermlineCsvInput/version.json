@@ -1,0 +1,77 @@
+{
+    "Version": "dragenGermlineCsvInput",
+    "Language": {
+        "Name": "cwl"
+    },
+    "Definition": {
+        "class": "CommandLineTool",
+        "hints": [
+            {
+                "class": "ResourceRequirement",
+                "coresMin": 8,
+                "http://platform.illumina.com/rdf/iap/resources": {
+                    "type": "fpga",
+                    "size": "medium"
+                }
+            },
+            {
+                "class": "DockerRequirement",
+                "dockerPull": "699120554104.dkr.ecr.us-east-1.amazonaws.com/public/dragen:3.6.3"
+            },
+            {
+                "class": "InlineJavascriptRequirement"
+            },
+            {
+                "class": "ShellCommandRequirement"
+            }
+        ],
+        "baseCommand": [
+            "/opt/edico/bin/dragen"
+        ],
+        "arguments": [
+            {
+                "valueFrom": "--partial-reconfig DNA-MAPPER --ignore-version-check true && \\\\\nmkdir -p /ephemeral/ref && \\\\\ntar -C /ephemeral/ref -xvf \"$(inputs.refdata.path)\" && \\\\\nmkdir \"$(inputs.outdir)\" && \\\\\n/opt/edico/bin/dragen --lic-instance-id-location /opt/instance-identity -f -r /ephemeral/ref --fastq-list \"$(inputs.fqcsv.path)\" --output-file-prefix \"$(inputs.outprefix)\" --output-directory \"$(inputs.outdir)\" --enable-duplicate-marking true --enable-map-align-output true --enable-variant-caller true",
+                "shellQuote": false
+            }
+        ],
+        "inputs": [
+            {
+                "type": "File",
+                "id": "#main/fqcsv"
+            },
+            {
+                "type": "string",
+                "id": "#main/outdir"
+            },
+            {
+                "type": "string",
+                "id": "#main/outprefix"
+            },
+            {
+                "type": "File",
+                "id": "#main/refdata"
+            }
+        ],
+        "outputs": [
+            {
+                "type": "File",
+                "outputBinding": {
+                    "glob": "$(inputs.outdir)/$(inputs.outprefix).bam"
+                },
+                "id": "#main/dragenBAM"
+            },
+            {
+                "type": "Directory",
+                "outputBinding": {
+                    "glob": "$(inputs.outdir)"
+                },
+                "id": "#main/dragenGermlineOutput"
+            }
+        ],
+        "id": "#main",
+        "cwlVersion": "v1.1",
+        "$namespaces": {
+            "ilmn-tes": "http://platform.illumina.com/rdf/iap/"
+        }
+    }
+}
