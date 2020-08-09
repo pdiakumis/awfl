@@ -67,12 +67,6 @@ const cwltool_pack = function (cwl) {
     fatal: true,
   });
 
-  try {
-    console.log(chalk.yellow(`Writing packed CWL file to ${cwl_packed}`));
-    fs.writeFileSync(cwl_packed, cmd.stdout);
-  } catch (err) {
-    console.error(chalk.red(err));
-  }
   return {
     path: cwl_packed,
     json: cmd.stdout,
