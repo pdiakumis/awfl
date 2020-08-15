@@ -7,10 +7,10 @@ const chalk = require("chalk");
 const yaml = require("js-yaml");
 
 /**
- * Check if cwltool is on PATH. Exit if not.
+ * Check if cwltool is in PATH. Exit if not.
  * @returns {boolean} false if not in PATH.
  */
-const cwltool_in_path = function () {
+const cwltoolInPath = function () {
   if (!shell.which("cwltool")) {
     console.error(chalk.red("cwltool not found in PATH!"));
     return false;
@@ -24,7 +24,7 @@ const cwltool_in_path = function () {
  * @param {string} cwl Path to CWL original file.
  * @returns {boolean} true only if CWL exists and has a '.cwl' suffix.
  */
-const cwl_file_exists = function (cwl) {
+const cwlFileExists = function (cwl) {
   if (!fs.existsSync(cwl)) {
     console.error(chalk.red(`CWL file ${cwl} does not exist.`));
     return false;
@@ -41,9 +41,9 @@ const cwl_file_exists = function (cwl) {
  * cwltool is on PATH.
  * @param {string} cwl Path to CWL original file.
  */
-const cwltool_validate = function (cwl) {
+const cwltoolValidate = function (cwl) {
   console.log(chalk.yellow("Validating CWL file"));
-  if (!cwl_file_exists(cwl) || !cwltool_in_path()) {
+  if (!cwlFileExists(cwl) || !cwltoolInPath()) {
     process.exit(1);
   }
   shell.exec(`cwltool --validate ${cwl}`, { silent: false, fatal: true });
@@ -54,8 +54,8 @@ const cwltool_validate = function (cwl) {
  * @param {string} cwl Path to CWL original file.
  * @returns {object} Object containing 'path' to packed CWL, and the actual JSON object 'json'.
  */
-const cwltool_pack = function (cwl) {
-  cwltool_validate(cwl);
+const cwltoolPack = function (cwl) {
+  cwltoolValidate(cwl);
   console.log(chalk.yellow("Packing CWL file"));
 
   let cwl_dirname = path.dirname(cwl);
@@ -78,7 +78,7 @@ const cwltool_pack = function (cwl) {
  * @param {string} cwl Path to CWL original file.
  * @returns {string} Output YAML from 'cwltool --make-template <cwl>'
  */
-const cwltool_make_template = function (cwl) {
+const cwltoolMakeTemplate = function (cwl) {
   console.log(chalk.yellow("Generating CWL template input object (YAML)"));
 
   let cmd = shell.exec(`cwltool --make-template ${cwl}`, {
@@ -90,12 +90,13 @@ const cwltool_make_template = function (cwl) {
 };
 
 /**
- *
+ * Generates YAML and JSONised CWL inputs that are used for launching
+ * a workflow on IAP.
  * @param {string} cwl Path to CWL original file.
  * @param {string} launchName Workflow launch name.
  */
-const write_workflow_launch = function (cwl, launchName) {
-  let input_yaml = cwltool_make_template(cwl);
+const writeWorkflowLaunch = function (cwl, launchName) {
+  let input_yaml = cwltoolMakeTemplate(cwl);
   let yaml_path = path.join(
     path.dirname(cwl),
     "launch_local_" + launchName + ".yaml"
@@ -126,12 +127,13 @@ const write_workflow_launch = function (cwl, launchName) {
 };
 
 /**
+ * Generates Workflow Version JSON file.
  * @param {string} cwl Path to CWL original file.
  * @param {string} versionName Workflow version name.
  */
-const write_workflow_version = function (cwl, versionName) {
+const writeWorkflowVersion = function (cwl, versionName) {
   // write to path/to/cwl/json/versionName.json
-  let cwl_packed = JSON.parse(cwltool_pack(cwl).json);
+  let cwl_packed = JSON.parse(cwltoolPack(cwl).json);
   let json_path = path.join(path.dirname(cwl), "version.json");
 
   var json_template = {
@@ -159,11 +161,11 @@ const write_workflow_version = function (cwl, versionName) {
  * @param {string} versionName Workflow version name.
  * @param {string} launchName Workflow launch name.
  */
-const write_workflow_json = function (cwl, versionName, launchName) {
-  write_workflow_version(cwl, versionName);
-  write_workflow_launch(cwl, launchName);
+const writeWorkflowJson = function (cwl, versionName, launchName) {
+  writeWorkflowVersion(cwl, versionName);
+  writeWorkflowLaunch(cwl, launchName);
 };
 
 module.exports = {
-  write_workflow_json: write_workflow_json,
+  writeWorkflowJson: writeWorkflowJson,
 };
