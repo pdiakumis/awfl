@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+"use strict";
+
 const axios = require("axios").default;
 const path = require("path");
 const fs = require("fs").promises;
@@ -30,7 +32,6 @@ const getVolumeName = function (gdsFile) {
  * @param {string} gdsFile GDS file path.
  */
 async function getPresignedUrl(gdsFile) {
-  let opts = requestOpts;
   let vName = getVolumeName(gdsFile);
   let vNameGds = `gds://${vName}`;
   let gdsPath = gdsFile.replace(vNameGds, "");
@@ -39,8 +40,9 @@ async function getPresignedUrl(gdsFile) {
     path: gdsPath,
     include: "presignedurl",
   };
-  opts.url = "/files";
+  let opts = requestOpts;
   opts.params = qs;
+  opts.url = "/files";
 
   try {
     let r = await axios(opts);
@@ -61,11 +63,12 @@ async function getPresignedUrl(gdsFile) {
 }
 
 /**
- * Generate presigned URLs for input GDS paths.
+ * Generate presigned URLs for Read1File and Read2File in input CSV file.
  * @param {string} inCsv Input CSV with RGID, RGSM, RGLB, Lane, Read1File and Read2File columns.
- * @param {string} outDir Output directory to write the CSV with presigned URLs.
+ * @param {string} outDir Output directory to write the
+ * updated CSV with presigned URLs in the Read1File and Read2File columns.
  */
-async function generatePresignedUrls(inCsv, outDir) {
+async function generatePresignedUrlsCsv(inCsv, outDir) {
   try {
     shell.mkdir("-p", outDir);
     const arrOfObj = utils.readCsv(inCsv);
@@ -74,6 +77,7 @@ async function generatePresignedUrls(inCsv, outDir) {
         const url1 = await getPresignedUrl(o["Read1File"]);
         const url2 = await getPresignedUrl(o["Read2File"]);
         let csv = "RGID,RGSM,RGLB,Lane,Read1File,Read2File\n";
+        // const phenotype = o["Phenotype"].toLowerCase();
         csv += `${o["RGID"]},${o["RGSM"]},${o["RGLB"]},${o["Lane"]},${url1},${url2}\n`;
         let outCsv = path.join(outDir, `${o["RGSM"]}_fastqInputsUrls.csv`);
         await fs.writeFile(outCsv, csv);
@@ -84,6 +88,14 @@ async function generatePresignedUrls(inCsv, outDir) {
   }
 }
 
+// function copyCsvToGds(csv, gds) {
+//   shell.exec(`iap files upload ${csv} ${gds}`, {
+//     silent: false,
+//     fatal: true,
+//     async: true,
+//   });
+// }
+
 module.exports = {
-  generatePresignedUrls: generatePresignedUrls,
+  generatePresignedUrlsCsv: generatePresignedUrlsCsv,
 };
