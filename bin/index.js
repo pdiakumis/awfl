@@ -3,12 +3,19 @@
 
 const cwl = require("../src/cwl");
 const gds = require("../src/gds");
+const run = require("../src/run");
 const { description, version } = require("../package.json");
 const { program } = require("@caporal/core");
+const templates = require("../src/templates");
+const chalk = require("chalk");
+
+const allowed_workflows = Object.keys(templates.WORKFLOWS);
 
 program
   .description(description)
   .version(version)
+
+  // cwl
   .command("cwl", "CWL-related functionality")
   .argument("<cwl>", "Path to CWL file")
   .option("-v, --versionName <string>", "Name of workflow version", {
@@ -19,9 +26,10 @@ program
   })
   .action(({ logger, args, options }) => {
     logger.info(`Running awfl cwl!`);
-    cwl.write_workflow_json(args.cwl, options.versionName, options.launchName);
+    cwl.writeWorkflowJson(args.cwl, options.versionName, options.launchName);
   })
 
+  // csvgen
   .command("csvgen", "Generate CSV FASTQ input for DRAGEN.")
   .argument(
     "<inputCsv>",
@@ -32,7 +40,23 @@ program
     "Output directory to write the CSV with presigned URLs."
   )
   .action(({ logger, args, options }) => {
-    logger.info(`Generating presigned URLs!`);
-    gds.generatePresignedUrls(args.inputCsv, args.outDir);
+    logger.info(`Generating presigned URLs for ${args.inputCsv}`);
+    logger.info(`Results will be written to: ${args.outDir}`);
+    gds.generatePresignedUrlsCsv(args.inputCsv, args.outDir);
+  })
+
+  // run
+  .command("run", "Run workflow.")
+  .argument("<workflowName>", "Workflow name.", {
+    validator: allowed_workflows,
+  })
+  .argument("<sampleName>", "Sample name.")
+  .action(({ logger, args, options }) => {
+    logger.info(
+      `Running workflow ${chalk.yellow(args.workflowName)} for ${chalk.yellow(
+        args.sampleName
+      )}`
+    );
+    run.launchWorkflow(args.workflowName, args.sampleName);
   });
 program.run();
