@@ -1,0 +1,19 @@
+{
+    "Name": "dragenSomatic_SBJ00124",
+    "Input": {
+        "refdata": {
+            "class": "File",
+            "location": "gds://umccr-refdata-dev/dragen/hsapiens/hg38/3.6.3_ht.tar"
+        },
+        "outprefix": "SBJ00124",
+        "outdir": "SBJ00124",
+        "fqcsv_tumor": {
+            "class": "File",
+            "location": "gds://diakumis-dragen/fastq_csv_input/SBJ00124/SBJ00124_tumor.csv"
+        },
+        "fqcsv_normal": {
+            "class": "File",
+            "location": "gds://diakumis-dragen/fastq_csv_input/SBJ00124/SBJ00124_normal.csv"
+        }
+    }
+}
