@@ -64,22 +64,29 @@ async function getPresignedUrl(gdsFile) {
 
 /**
  * Generate presigned URLs for Read1File and Read2File in input CSV file.
- * @param {string} inCsv Input CSV with RGID, RGSM, RGLB, Lane, Read1File and Read2File columns.
+ * Splits the provided CSV by Subject and Phenotype, then writes one CSV
+ * per Phenotype into the Subject directory.
+ * @param {string} inCsv Input CSV with Subject, Phenotype, RGID, RGSM, RGLB, Lane,
+ * Read1File and Read2File columns.
  * @param {string} outDir Output directory to write the
  * updated CSV with presigned URLs in the Read1File and Read2File columns.
  */
 async function generatePresignedUrlsCsv(inCsv, outDir) {
   try {
-    shell.mkdir("-p", outDir);
     const arrOfObj = utils.readCsv(inCsv);
     await Promise.all(
       arrOfObj.map(async o => {
+        // Create <Subject> directory, and write CSVs
+        const subject = o["Subject"];
+        const subject_outdir = path.join(outDir, subject);
+        const phenotype = o["Phenotype"].toLowerCase();
+        shell.mkdir("-p", subject_outdir);
+
         const url1 = await getPresignedUrl(o["Read1File"]);
         const url2 = await getPresignedUrl(o["Read2File"]);
         let csv = "RGID,RGSM,RGLB,Lane,Read1File,Read2File\n";
-        // const phenotype = o["Phenotype"].toLowerCase();
         csv += `${o["RGID"]},${o["RGSM"]},${o["RGLB"]},${o["Lane"]},${url1},${url2}\n`;
-        let outCsv = path.join(outDir, `${o["RGSM"]}_fastqInputsUrls.csv`);
+        let outCsv = path.join(subject_outdir, `${subject}_${phenotype}.csv`);
         await fs.writeFile(outCsv, csv);
       })
     );

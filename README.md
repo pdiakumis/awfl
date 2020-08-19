@@ -13,7 +13,8 @@ Node.js application that helps to run bioinformatic workflows on the Illumina An
     - [Output1: JSON packed CWL](#output1-json-packed-cwl)
     - [Output2: JSON for version](#output2-json-for-version)
     - [Output3: JSON for launch](#output3-json-for-launch)
-  - [Structure](#structure)
+    - [Tree Structure](#tree-structure)
+  - [csvgen](#csvgen)
 
 ## CWL-2-JSON
 
@@ -124,13 +125,13 @@ PUT {{baseUrl}}/v1/tasks/runs/{{workflowrunid}}:abort
 Step 2 (Version) and Step 3 (Launch) can be automated a bit more, by
 generating the required JSON bodies.
 
-`awfl -c <PathToCwlYaml> -v <NameOfVersion> -l <NameOfLaunch>`
+`awfl cwl <pathToCwlYamlFile> [-v nameOfWorkflowVersion [-l nameOfWorkflowLaunch]]`
 
-Option description:
+Option/argument description:
 
-- `-c <PathToCwlYaml>`: path to original CWL file
-- `-v <NameOfVersion>`: name given to workflow version (default: 'version1')
-- `-l <NameOfLaunch>`: name given to launched workflow (default: 'launch1')
+- `<pathToCwlYamlFile>`: path to original CWL file
+- `[-v nameOfWorkflowVersion]`: name given to workflow version (default: 'version1')
+- `[-l nameOfWorkflowLaunch]`: name given to launched workflow (default: 'launch1')
 
 Algorithm:
 
@@ -192,7 +193,7 @@ Algorithm:
 }
 ```
 
-### Structure
+#### Tree Structure
 
 ```text
 tools/
@@ -211,3 +212,22 @@ tools/
        |---launchA.json
        |---launchB.json
 ```
+
+### csvgen
+
+- Input: CSV file with the following columns:
+  - `Subject`: Subject ID
+  - `Phenotype`: tumor or normal
+  - `RGID`, `RGSM`, `RGLB`, `Lane`
+  - `Read1File`, `Read2File`: GDS paths to FASTQ files.
+
+- Output: directory `Subject` with two files with the above columns
+  sans `Subject` and `Phenotype`:
+  - `<Subject>_tumor.csv`
+    - contains rows where `Subject` == `<Subject>`
+    and `Phenotype` == `tumor`
+  - `<Subject>_normal.csv`
+    - contains rows where `Subject` == `<Subject>`
+    and `Phenotype` == `normal`
+  - `Read1File` and `Read2File` will contain
+  pre-signed URLs to the corresponding GDS files.
