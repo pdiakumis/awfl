@@ -15,15 +15,16 @@ const templates = require("./templates");
  * @param {string} data Input data object.
  */
 async function launchWorkflow(workflowName, data) {
-  let wf = templates.WORKFLOWS[workflowName];
-  let opts = requestOpts;
-  opts.method = "post";
-  opts.url = `/workflows/${wf.workflowId}/versions/${wf.versionName}:launch`;
-  opts.data = templates.LAUNCH_TEMPLATE[workflowName](data);
-
   try {
+    let wf = templates.WORKFLOWS[workflowName];
+    let opts = requestOpts;
+    opts.method = "post";
+    opts.url = `/workflows/${wf.workflowId}/versions/${wf.versionName}:launch`;
+    opts.data = templates.LAUNCH_TEMPLATE[workflowName](data);
+
     let r = await axios(opts);
     console.log(r.data);
+    // console.log(opts);
   } catch (error) {
     utils.printError(error);
   }

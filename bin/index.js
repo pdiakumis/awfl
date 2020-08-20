@@ -50,13 +50,17 @@ program
   .argument("<workflowName>", "Workflow name.", {
     validator: allowed_workflows,
   })
-  .argument("<sampleName>", "Sample name.")
+  .option("-s, --sample <string>", "Sample name.")
+  .option("-p, --phenotype <string>", "Phenotype.")
   .action(({ logger, args, options }) => {
     logger.info(
-      `Running workflow ${chalk.yellow(args.workflowName)} for ${chalk.yellow(
-        args.sampleName
-      )}`
+      `Running workflow ${chalk.yellow(args.workflowName)} ` +
+        `for sample ${chalk.yellow(options.sample)} ` +
+        `and phenotype ${chalk.yellow(options.phenotype)}.`
     );
-    run.launchWorkflow(args.workflowName, args.sampleName);
+    run.launchWorkflow(args.workflowName, {
+      sample: options.sample,
+      phenotype: options.phenotype,
+    });
   });
 program.run();
