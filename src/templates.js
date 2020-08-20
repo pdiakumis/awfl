@@ -1,19 +1,30 @@
 "use strict";
 
 const LAUNCH_TEMPLATE = {
-  dragenGermline: sample => {
+  dragenGermline: d => {
+    if (!d.hasOwnProperty("sample")) {
+      throw new Error(`No 'sample' key found!`);
+    }
+    if (!d.hasOwnProperty("phenotype")) {
+      throw new Error(`No 'phenotype' key found!`);
+    }
+    let phenos = ["tumor", "normal"];
+    if (!phenos.includes(d.phenotype)) {
+      throw new Error(`${d.phenotype} should be one of ${phenos.join(", ")}`);
+    }
+
     let obj = {
-      Name: `dragenGermline_${sample}`,
+      Name: `dragenGermline_${d.sample}_${d.phenotype}`,
       Input: {
         refdata: {
           class: "File",
           location: "gds://umccr-refdata-dev/dragen/hsapiens/hg38/3.6.3_ht.tar",
         },
-        outprefix: sample,
-        outdir: sample,
+        outprefix: d.sample,
+        outdir: d.sample,
         fqcsv: {
           class: "File",
-          location: `gds://diakumis-dragen/fastq_csv_input/${sample}_fastqInputsUrls.csv`,
+          location: `gds://diakumis-dragen/fastq_csv_input/${d.sample}/${d.sample}_${d.phenotype}.csv`,
         },
       },
     };

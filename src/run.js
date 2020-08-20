@@ -8,16 +8,18 @@ const requestOpts = require("./illumina").requestOpts;
 const templates = require("./templates");
 
 /**
- * Launches a specific workflow version.
- * @param {string} workflowName The nickname of the workflow
- * @param {string} sampleName Sample name. Just germline for now.
+ * Launches a specific workflow version given a workflow 'nickname'
+ * and a data object. The data needs to conform to the specific workflow's
+ * requirements.
+ * @param {string} workflowName The nickname of the workflow.
+ * @param {string} data Input data object.
  */
-async function launchWorkflow(workflowName, sampleName) {
+async function launchWorkflow(workflowName, data) {
   let wf = templates.WORKFLOWS[workflowName];
   let opts = requestOpts;
   opts.method = "post";
   opts.url = `/workflows/${wf.workflowId}/versions/${wf.versionName}:launch`;
-  opts.data = templates.LAUNCH_TEMPLATE[workflowName](sampleName);
+  opts.data = templates.LAUNCH_TEMPLATE[workflowName](data);
 
   try {
     let r = await axios(opts);
