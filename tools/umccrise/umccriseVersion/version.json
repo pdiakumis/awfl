@@ -1,0 +1,54 @@
+{
+    "Version": "umccriseVersion",
+    "Language": {
+        "Name": "cwl"
+    },
+    "Definition": {
+        "class": "CommandLineTool",
+        "hints": [
+            {
+                "class": "ResourceRequirement",
+                "coresMin": 2,
+                "ramMin": 1024,
+                "http://platform.illumina.com/rdf/iap/resources": {
+                    "type": "standard",
+                    "size": "medium"
+                }
+            },
+            {
+                "class": "DockerRequirement",
+                "dockerPull": "843407916570.dkr.ecr.ap-southeast-2.amazonaws.com/umccrise:1.0.9-bfab109526"
+            },
+            {
+                "class": "InlineJavascriptRequirement"
+            },
+            {
+                "class": "ShellCommandRequirement"
+            }
+        ],
+        "baseCommand": [
+            "umccrise"
+        ],
+        "arguments": [
+            {
+                "valueFrom": "--version > version.txt 2>&1",
+                "shellQuote": false
+            }
+        ],
+        "inputs": [],
+        "outputs": [
+            {
+                "type": "File",
+                "outputBinding": {
+                    "glob": "version.txt"
+                },
+                "id": "#main/version_file"
+            }
+        ],
+        "id": "#main",
+        "cwlVersion": "v1.1",
+        "$namespaces": {
+            "ilmn-tes": "http://platform.illumina.com/rdf/iap/"
+        }
+    }
+}
