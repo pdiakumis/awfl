@@ -24,23 +24,23 @@ POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions
 Authorization: {{token}}
 Content-Type: application/json
 
-< ./umccriseVersion/version.json
+< ./umccriseRun/version.json
 
 ### Launch
 
 # @vname = {{workflowversion.response.body.$.version}}
-@vname = umccriseVersion
+@vname = umccriseRun
 // @name workflowrun
 POST {{baseUrl}}/v1/workflows/{{workflowid}}/versions/{{vname}}:launch
 Authorization: {{token}}
 Content-Type: application/json
 
-< ./umccriseVersion/launch.json
+< ./umccriseRun/launch.json
 
 ### History
 
 # @workflowrunid = @{{workflowrun.response.body.$.id}}
-@workflowrunid = wfr.cbc2910ef1d74ca5889734ae5fc7cb2f
+@workflowrunid = wfr.ba81340c28464363a991ff0192eab846
 GET {{baseUrl}}/v1/workflows/runs/{{workflowrunid}}/history
 ?pageSize=100
 &sort=eventId
@@ -48,14 +48,14 @@ Authorization: {{token}}
 
 ### ABORT WORKFLOW RUN
 
-# @abort_wfrunid = wfr.85b646c7408a4a93b63026dc0979d226
+@abort_wfrunid = wfr.7c486de0716b4e29bc294621d1226962
 PUT {{baseUrl}}/v1/workflows/runs/{{abort_wfrunid}}:abort
 Authorization: {{token}}
 Content-Type: application/json
 
 {
-    "error": "wrongDragenImage",
-    "cause": "UsePublic"
+    "error": "doNotUseGdsInOutput",
+    "cause": "UseSimpleBasename"
 }
 
 ### PATCH Workflow Version
@@ -64,4 +64,4 @@ PATCH {{baseUrl}}/v1/workflows/{{workflowid}}/versions/{{vname}}
 Authorization: {{token}}
 Content-Type: application/json
 
-< ./umccriseVersion/version_patched.json
+< ./umccriseRun/version_patched.json

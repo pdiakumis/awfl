@@ -1,0 +1,70 @@
+{
+    "Version": "umccriseRun",
+    "Language": {
+        "Name": "cwl"
+    },
+    "Definition": {
+        "class": "CommandLineTool",
+        "hints": [
+            {
+                "class": "ResourceRequirement",
+                "http://platform.illumina.com/rdf/iap/resources": {
+                    "type": "standardHiCpu",
+                    "size": "medium"
+                }
+            },
+            {
+                "class": "DockerRequirement",
+                "dockerPull": "843407916570.dkr.ecr.ap-southeast-2.amazonaws.com/umccrise:1.0.9-bfab109526"
+            },
+            {
+                "class": "InlineJavascriptRequirement"
+            },
+            {
+                "class": "ShellCommandRequirement"
+            }
+        ],
+        "baseCommand": [
+            "umccrise"
+        ],
+        "inputs": [
+            {
+                "type": "Directory",
+                "inputBinding": {
+                    "position": 1
+                },
+                "id": "#main/dragenResultsDir"
+            },
+            {
+                "type": "Directory",
+                "inputBinding": {
+                    "position": 2,
+                    "prefix": "--genomes"
+                },
+                "id": "#main/genomeDir"
+            },
+            {
+                "type": "string",
+                "inputBinding": {
+                    "position": 3,
+                    "prefix": "-o"
+                },
+                "id": "#main/outDir"
+            }
+        ],
+        "outputs": [
+            {
+                "type": "Directory",
+                "outputBinding": {
+                    "glob": "$(inputs.outDir)"
+                },
+                "id": "#main/umccriseOutdir"
+            }
+        ],
+        "id": "#main",
+        "cwlVersion": "v1.1",
+        "$namespaces": {
+            "ilmn-tes": "http://platform.illumina.com/rdf/iap/"
+        }
+    }
+}

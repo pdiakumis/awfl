@@ -1,0 +1,14 @@
+{
+  "Name": "umccrise_1.0.9_SBJ00124",
+  "Input": {
+    "outDir": "SBJ00124",
+    "genomeDir": {
+      "class": "Directory",
+      "location": "gds://umccr-refdata-dev/umccrise/genomes/"
+    },
+    "dragenResultsDir": {
+      "class": "Directory",
+      "location": "gds://wfr.cbc2910ef1d74ca5889734ae5fc7cb2f/dragenSomatic_SBJ00124/main_launch/try-1/SBJ00124"
+    }
+  }
+}
