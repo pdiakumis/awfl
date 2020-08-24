@@ -61,6 +61,31 @@ const LAUNCH_TEMPLATE = {
     };
     return obj;
   },
+
+  umccrise: d => {
+    if (!d.hasOwnProperty("sample")) {
+      throw new Error(`No 'sample' key found!`);
+    }
+    if (!d.hasOwnProperty("dragenResults")) {
+      throw new Error(`No 'dragenResults' key found!`);
+    }
+
+    let obj = {
+      Name: `umccrise_1.0.9_${d.sample}`,
+      Input: {
+        outDir: d.sample,
+        genomeDir: {
+          class: "Directory",
+          location: "gds://umccr-refdata-dev/umccrise/genomes/",
+        },
+        dragenResultsDir: {
+          class: "Directory",
+          location: d.dragenResults,
+        },
+      },
+    };
+    return obj;
+  },
 };
 
 const WORKFLOWS = {
@@ -71,6 +96,10 @@ const WORKFLOWS = {
   dragenSomatic: {
     workflowId: "wfl.126aeca88a614aa5a5cacd470a47136b",
     versionName: "dragenSomaticCsvInput",
+  },
+  umccrise: {
+    workflowId: "wfl.d958e72cc62943738a0d6db6820b1503",
+    versionName: "umccriseRun",
   },
 };
 

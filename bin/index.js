@@ -52,15 +52,18 @@ program
   })
   .option("-s, --sample <string>", "Sample name.")
   .option("-p, --phenotype <string>", "Phenotype.")
+  .option("-d, --dragenResults <string>", "DRAGEN results directory.")
   .action(({ logger, args, options }) => {
     logger.info(
-      `Running workflow ${chalk.yellow(args.workflowName)} ` +
-        `for sample ${chalk.yellow(options.sample)} ` +
-        `and phenotype ${chalk.yellow(options.phenotype)}.`
+      `Running workflow ${chalk.yellow(args.workflowName)}\n` +
+        `sample: ${chalk.yellow(options.sample)}\n` +
+        `phenotype: ${chalk.yellow(options.phenotype)}\n` +
+        `dragenResults: ${chalk.yellow(options.dragenResults)}\n`
     );
     run.launchWorkflow(args.workflowName, {
       sample: options.sample,
       phenotype: options.phenotype,
+      dragenResults: options.dragenResults,
     });
   });
 program.run();
