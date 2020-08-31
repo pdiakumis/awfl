@@ -1,0 +1,19 @@
+{
+  "Name": "dragenSomaticBam_COLO829",
+  "Input": {
+    "refdata": {
+      "class": "File",
+      "location": "gds://umccr-refdata-dev/dragen/hsapiens/hg38/3.6.3_ht.tar"
+    },
+    "outprefix": "COLO829",
+    "outdir": "COLO829",
+    "bam_tumor": {
+      "class": "File",
+      "location": "gds://wfr.4e8f7b5b720b4a919fc950ff7710c696/dragenSomatic_COLO829/main_launch/try-1/COLO829/COLO829_tumor.bam"
+    },
+    "bam_normal": {
+      "class": "File",
+      "location": "gds://wfr.4e8f7b5b720b4a919fc950ff7710c696/dragenSomatic_COLO829/main_launch/try-1/COLO829/COLO829.bam"
+    }
+  }
+}

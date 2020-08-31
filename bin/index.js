@@ -33,7 +33,7 @@ program
   .command("csvgen", "Generate CSV FASTQ input for DRAGEN.")
   .argument(
     "<inputCsv>",
-    "Input CSV with RGID, RGSM, RGLB, Lane, Read1File and Read2File columns."
+    "Input CSV with Phenotype, Subject, RGID, RGSM, RGLB, Lane, Read1File and Read2File columns."
   )
   .argument(
     "<outDir>",
