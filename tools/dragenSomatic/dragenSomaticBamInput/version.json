@@ -37,10 +37,22 @@
         "inputs": [
             {
                 "type": "File",
+                "secondaryFiles": [
+                    {
+                        "pattern": ".bai",
+                        "required": true
+                    }
+                ],
                 "id": "#main/bam_normal"
             },
             {
                 "type": "File",
+                "secondaryFiles": [
+                    {
+                        "pattern": ".bai",
+                        "required": true
+                    }
+                ],
                 "id": "#main/bam_tumor"
             },
             {

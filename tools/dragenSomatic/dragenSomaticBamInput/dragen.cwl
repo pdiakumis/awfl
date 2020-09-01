@@ -28,8 +28,14 @@ inputs:
     type: File
   bam_normal:
     type: File
+    secondaryFiles:
+      - pattern: ".bai"
+        required: true
   bam_tumor:
     type: File
+    secondaryFiles:
+      - pattern: ".bai"
+        required: true
   outprefix:
     type: string
   outdir:
